@@ -67,9 +67,52 @@ void myDisplay()
 	// clear the screen 
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	//initialize quad
 	GLUquadric *quad;
 	quad = gluNewQuadric();
-	gluSphere(quad, 0.5, 100, 20);
+
+	// draw the sun
+	glColor3f(1.0, 1.0, 0.0);
+	glTranslatef(0.0, 0.3, 0.0);
+	gluSphere(quad, 0.2, 100, 20);
+	glLoadIdentity();
+	
+	// planet
+	glColor3f(1.0, 0.0, 0.0);
+	glTranslatef(-0.6, 0.5,0.0);
+	gluSphere(quad, 0.05, 100, 20);
+
+
+
+	// planet
+	glLoadIdentity();
+	glColor3f(1.0, 0.5, 0.0);
+	glTranslatef(-0.6, 0.53, 1.0);
+	gluSphere(quad, 0.04, 100, 20);
+
+	// planet
+	glLoadIdentity();
+	glColor3f(0.5, 1.0, 0.5);
+	glTranslatef(0.4, -0.2, 0.0);
+	gluSphere(quad, 0.03, 100, 20);
+
+	// planet
+	glLoadIdentity();
+	glColor3f(0.0, 1.0, 0.0);
+	glTranslatef(-0.3, -0.1, 0.0);
+	gluSphere(quad, 0.05, 100, 20);
+
+	// planet
+	glLoadIdentity();
+	glColor3f(0.0, 0.0, 1.0);
+	glTranslatef(0.5, 0.5, 0.0);
+	gluSphere(quad, 0.065, 100, 20);
+
+	// planet
+	glLoadIdentity();
+	glColor3f(1.0, 0.0, 0.5);
+	glTranslatef(0.6, 0.5, 0.0);
+	gluSphere(quad, 0.06, 100, 20);
 
 	// switch to the other buffer
 	glutSwapBuffers();
