@@ -82,7 +82,11 @@ void myDisplay()
 	glTranslatef(-0.6, 0.5,0.0);
 	gluSphere(quad, 0.05, 100, 20);
 
-
+	// moon
+	glLoadIdentity();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(-0.655, 0.5, 0.0);
+	gluSphere(quad, 0.01, 100, 20);
 
 	// planet
 	glLoadIdentity();
@@ -96,11 +100,23 @@ void myDisplay()
 	glTranslatef(0.4, -0.2, 0.0);
 	gluSphere(quad, 0.03, 100, 20);
 
+	// moon
+	glLoadIdentity();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(0.43, -0.25, 0.0);
+	gluSphere(quad, 0.01, 100, 20);
+
 	// planet
 	glLoadIdentity();
 	glColor3f(0.0, 1.0, 0.0);
 	glTranslatef(-0.3, -0.1, 0.0);
 	gluSphere(quad, 0.05, 100, 20);
+
+	// moon
+	glLoadIdentity();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(-0.4, -0.14, 0.0);
+	gluSphere(quad, 0.01, 100, 20);
 
 	// planet
 	glLoadIdentity();
@@ -108,10 +124,16 @@ void myDisplay()
 	glTranslatef(0.5, 0.5, 0.0);
 	gluSphere(quad, 0.065, 100, 20);
 
+	// moon
+	glLoadIdentity();
+	glColor3f(1.0, 1.0, 1.0);
+	glTranslatef(0.38, 0.51, 0.0);
+	gluSphere(quad, 0.01, 100, 20);
+
 	// planet
 	glLoadIdentity();
 	glColor3f(1.0, 0.0, 0.5);
-	glTranslatef(0.6, 0.5, 0.0);
+	glTranslatef(0.6, 0.3, 0.0);
 	gluSphere(quad, 0.06, 100, 20);
 
 	// switch to the other buffer
