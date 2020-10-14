@@ -67,12 +67,9 @@ void myDisplay()
 	// clear the screen 
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	glPointSize(4.0);
-
-	glBegin(GL_POINTS);
-	glColor3f(0.0, 0.0, 1.0);
-	glVertex2f(-0.5, 0.5);
-	glEnd();
+	GLUquadric *quad;
+	quad = gluNewQuadric();
+	gluSphere(quad, 0.5, 100, 20);
 
 	// switch to the other buffer
 	glutSwapBuffers();
