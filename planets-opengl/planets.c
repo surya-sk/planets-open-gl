@@ -21,8 +21,8 @@ const float PI = 3.141592653;
 
 GLfloat P1[3] = { -0.6, 0.5, -1.0 };
 GLfloat P2[3] = { -0.6, 0.53, -1.0 };
-GLfloat P3[3] = { 0.4, -0.2, -1.0 };
-GLfloat P4[3] = { 0.43, -0.25, -1.0 };
+GLfloat P3[3] = { 0.4, 0.2, -1.0 };
+GLfloat P4[3] = { 0.43, 0.6, -1.0 };
 GLfloat P5[3] = { 0.5, 0.5, -1.0 };
 GLfloat P6[3] = { 0.6, 0.3, -1.0 };
 
@@ -175,11 +175,11 @@ void myIdle()
 	theta += 0.001; 
 	if (theta < 2 * PI)
 	{
-		revolvePlanet(0.5, 0.05, P1, 0.5, 2.2);
+		revolvePlanet(0.5, 0.05, P1, 0.5, 4.2);
 		revolvePlanet(0.7, 0.05, P2, 0.6, 5.5);
-		revolvePlanet(0.3, 0.07, P3, 0.1, 3.0);
+		revolvePlanet(0.3, 0.07, P3, 0.4, 3.0);
 		revolvePlanet(0.4, 0.03, P4, 0.2, 2.15);
-		revolvePlanet(0.8, 0.06, P5, 0.5, 1.5);
+		revolvePlanet(0.8, 0.06, P5, 0.5, 2.5);
 		revolvePlanet(0.4, 0.04, P6, 0.7, 2.6);
 	}
 	else
