@@ -97,7 +97,7 @@ void myDisplay()
 	// moon
 	glLoadIdentity();
 	glColor3f(1.0, 1.0, 1.0);
-	glTranslatef(-0.655, 0.5, -1.0);
+	glTranslatef(P1[0]+0.06, P1[1]-0.02, P1[2]);
 	gluSphere(quad, 0.01, 100, 20);
 
 	// planet
@@ -115,7 +115,7 @@ void myDisplay()
 	// moon
 	glLoadIdentity();
 	glColor3f(1.0, 1.0, 1.0);
-	glTranslatef(0.43, -0.25, -1.0);
+	glTranslatef(P3[0] + 0.06, P3[1]+0.04, P3[2]);
 	gluSphere(quad, 0.01, 100, 20);
 
 	// planet
@@ -127,7 +127,7 @@ void myDisplay()
 	// moon
 	glLoadIdentity();
 	glColor3f(1.0, 1.0, 1.0);
-	glTranslatef(-0.4, -0.14, -1.0);
+	glTranslatef(P4[0] + 0.03, P4[1]-0.02, P4[2]);
 	gluSphere(quad, 0.01, 100, 20);
 
 	// planet
@@ -139,7 +139,7 @@ void myDisplay()
 	// moon
 	glLoadIdentity();
 	glColor3f(1.0, 1.0, 1.0);
-	glTranslatef(0.38, 0.51, -1.0);
+	glTranslatef(P5[0]+0.04, P5[1]-0.06, P5[2]);
 	gluSphere(quad, 0.01, 100, 20);
 
 	// planet
