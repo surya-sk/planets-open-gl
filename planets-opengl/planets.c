@@ -96,7 +96,7 @@ void initializeGL()
 	glOrtho(-1.0, 1.0, -1.0, 1.0, 0.1, 10.0);
 
 	// assign random numbers to star points
-	for (int i = 0; i < 40; i++)
+	for (int i = 0; i < 200; i++)
 	{
 		starPoints[i] = arr[getRandomNumber(0,20)];
 		printf("%f", starPoints[i]);
@@ -164,7 +164,7 @@ void drawStars()
 	glPointSize(1.0);
 	// draw stars
 	glBegin(GL_POINTS);
-	for (int i = 0; i < 40; i++)
+	for (int i = 0; i < 200; i++)
 	{
 		glColor3f(starColors[getRandomNumber(0, 1)], starColors[getRandomNumber(0, 1)], starColors[getRandomNumber(0, 1)]);
 		glVertex3f(starPoints[i], starPoints[i++], -1.0);
