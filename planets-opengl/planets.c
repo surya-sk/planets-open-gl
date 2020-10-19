@@ -20,6 +20,9 @@ Author:			Surya Kashyap
 GLint windowHeight = 800;
 GLint windowWidth = 800;
 
+// determines whether stars should be shown
+GLint showStars = 0;
+
 // pi
 const float PI = 3.141592653;
 
@@ -93,7 +96,7 @@ void initializeGL()
 	glOrtho(-1.0, 1.0, -1.0, 1.0, 0.1, 10.0);
 
 	// assign random numbers to star points
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 40; i++)
 	{
 		starPoints[i] = arr[getRandomNumber(0,20)];
 		printf("%f", starPoints[i]);
@@ -135,7 +138,12 @@ void myDisplay()
 
 	glPushMatrix();
 
-	drawStars();
+	// draw stars if s is pressed
+	if (showStars)
+	{
+		drawStars();
+	}
+	
 	// switch to the other buffer
 	glutSwapBuffers();
 }
@@ -156,7 +164,7 @@ void drawStars()
 	glPointSize(1.0);
 	// draw stars
 	glBegin(GL_POINTS);
-	for (int i = 0; i < 20; i++)
+	for (int i = 0; i < 40; i++)
 	{
 		glColor3f(starColors[getRandomNumber(0, 1)], starColors[getRandomNumber(0, 1)], starColors[getRandomNumber(0, 1)]);
 		glVertex3f(starPoints[i], starPoints[i++], -1.0);
@@ -253,9 +261,21 @@ void revolvePlanet(double xRadius, double yRadius, GLfloat planet[3], double yPo
 	planet[2] = -1.0;
 }
 
+/************************************************************************
+
+
+Function:		myIdle
+
+
+Description:	 Handles idle functionality 
+
+
+*************************************************************************/
 void myIdle()
 {	
+	//increase angle
 	theta += 0.001; 
+	// as long as circle is not complete
 	if (theta < 2 * PI)
 	{
 		revolvePlanet(0.5, 0.05, P1, 0.5, 4.2);
@@ -267,12 +287,41 @@ void myIdle()
 	}
 	else
 	{
+		//reset angle
 		theta = 0.0;
 	}
 
+	// force glut to redraw display
 	glutPostRedisplay();
 }
 
+/************************************************************************
+
+
+Function:		myKey
+
+
+Description:	Handles key press functionality 
+
+
+*************************************************************************/
+void myKey(unsigned char key, int x, int y)
+{
+	switch (key)
+	{
+	// show or hide stars if 's' is pressed
+	case ('s'):
+		if (showStars)
+		{
+			showStars = 0;
+		}
+		else
+		{
+			showStars = 1;
+		}
+		break;
+	}
+}
 
 
 /************************************************************************
@@ -304,6 +353,9 @@ void main(int argc, char** argv)
 
 	// idle function
 	glutIdleFunc(myIdle);
+
+	// keyboard function
+	glutKeyboardFunc(myKey);
 
 	// initialize the rendering context
 	initializeGL();
