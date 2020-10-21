@@ -27,12 +27,12 @@ GLint showStars = 0;
 const float PI = 3.141592653;
 
 // coordinates for the 6 planets
-GLfloat P1[3] = { -0.6, 0.5, -1.0 };
-GLfloat P2[3] = { -0.6, 0.53, -1.0 };
-GLfloat P3[3] = { 0.4, 0.2, -1.0 };
-GLfloat P4[3] = { 0.43, 0.6, -1.0 };
-GLfloat P5[3] = { 0.5, 0.5, -1.0 };
-GLfloat P6[3] = { 0.6, 0.3, -1.0 };
+GLfloat P1[3] = { -0.6, 0.5, 0.0 };
+GLfloat P2[3] = { -0.6, 0.53, 0.0 };
+GLfloat P3[3] = { 0.4, 0.2, 0.0 };
+GLfloat P4[3] = { 0.43, 0.6, 0.0 };
+GLfloat P5[3] = { 0.5, 0.5, 0.0 };
+GLfloat P6[3] = { 0.6, 0.3, 0.0 };
 
 
 // angle for rotating planets and moons
@@ -43,6 +43,8 @@ GLfloat arr[21] = { 0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,-0.1,-0.2,-0.3,-
 GLfloat starPoints[21];
 
 GLfloat starColors[2] = { 0.0, 1.0 };
+
+GLfloat z = 0.0;
 
 /************************************************************************
 
@@ -93,13 +95,12 @@ void initializeGL()
 	// enable smooth line drawing
 	glEnable(GL_LINE_SMOOTH);
 
-	glOrtho(-1.0, 1.0, -1.0, 1.0, 0.1, 10.0);
+	glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 10.0);
 
 	// assign random numbers to star points
 	for (int i = 0; i < 200; i++)
 	{
 		starPoints[i] = arr[getRandomNumber(0,20)];
-		printf("%f", starPoints[i]);
 	}
 
 
@@ -126,17 +127,19 @@ void myDisplay()
 	quad = gluNewQuadric();
 
 	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
+	//glPopMatrix();
 	glLoadIdentity();
 	// draw the sun
-	glColor3f(1.0, 1.0, 0.0);
-	glTranslatef(0.0, 0.5, 0.0);
+	glColor3f(1.0, 1.0, -1.0);
+	glTranslatef(0.0, 0.5, z);
 	gluSphere(quad, 0.3, 100, 20);
-	glLoadIdentity();
+	//glLoadIdentity();
 	
+
+	glTranslatef(0.4, 0, 0);
 	drawPlanetsAndMoons(quad);
 
-	glPushMatrix();
+	//glPushMatrix();
 
 	// draw stars if s is pressed
 	if (showStars)
@@ -185,81 +188,76 @@ Description:	Draws 6 planets and 4 moons
 void drawPlanetsAndMoons(GLUquadric * quad)
 {
 	// planet
+	glLoadIdentity();
 	glColor3f(1.0, 0.0, 0.0);
-	glTranslatef(P1[0], P1[1], P1[2]);
+	glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	glTranslatef(P1[0], P1[1], 1.0);
 	gluSphere(quad, 0.05, 100, 20);
 
 	// moon
 	glLoadIdentity();
 	glColor3f(1.0, 1.0, 1.0);
+	glRotatef(theta * 10, 0.0, 1.0, 0.0);
 	glTranslatef(P1[0] + 0.06, P1[1] - 0.02, P1[2]);
 	gluSphere(quad, 0.01, 100, 20);
 
 	// planet
 	glLoadIdentity();
 	glColor3f(1.0, 0.5, 0.0);
-	glTranslatef(P2[0], P2[1], P2[2]);
+	glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	glTranslatef(P1[0], P2[1], P2[2]);
 	gluSphere(quad, 0.04, 100, 20);
 
 	// planet
 	glLoadIdentity();
 	glColor3f(0.5, 1.0, 0.5);
-	glTranslatef(P3[0], P3[1], P3[2]);
+	glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	glTranslatef(P1[0], P3[1], P3[2]);
 	gluSphere(quad, 0.03, 100, 20);
 
 	// moon
 	glLoadIdentity();
 	glColor3f(1.0, 1.0, 1.0);
-	glTranslatef(P3[0] + 0.06, P3[1] + 0.04, P3[2]);
+	glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	glTranslatef(P1[0] + 0.06, P3[1] + 0.04, P3[2]);
 	gluSphere(quad, 0.01, 100, 20);
 
 	// planet
 	glLoadIdentity();
 	glColor3f(0.0, 1.0, 0.0);
-	glTranslatef(P4[0], P4[1], P4[2]);
+	glRotatef(theta * 20, 0.0, 1.0, 0.0);
+	glTranslatef(P1[0], P4[1], P4[2]);
 	gluSphere(quad, 0.05, 100, 20);
 
 	// moon
 	glLoadIdentity();
 	glColor3f(1.0, 1.0, 1.0);
-	glTranslatef(P4[0] + 0.03, P4[1] - 0.02, P4[2]);
+	glRotatef(theta * 20, 0.0, 1.0, 0.0);
+	glTranslatef(P1[0] + 0.03, P4[1] - 0.02, P4[2]);
 	gluSphere(quad, 0.01, 100, 20);
 
 	// planet
 	glLoadIdentity();
 	glColor3f(0.0, 0.0, 1.0);
+	glRotatef(theta * 40, 0.0, 1.0, 0.0);
 	glTranslatef(P5[0], P5[1], P5[2]);
 	gluSphere(quad, 0.065, 100, 20);
 
 	// moon
 	glLoadIdentity();
 	glColor3f(1.0, 1.0, 1.0);
+	glRotatef(theta * 40, 0.0, 1.0, 0.0);
 	glTranslatef(P5[0] + 0.04, P5[1] - 0.06, P5[2]);
 	gluSphere(quad, 0.01, 100, 20);
 
 	// planet
 	glLoadIdentity();
 	glColor3f(1.0, 0.0, 0.5);
+	glRotatef(theta * 10, 0.0, 1.0, 0.0);
 	glTranslatef(P6[0], P6[1], P6[2]);
 	gluSphere(quad, 0.06, 100, 20);
 }
 
-/************************************************************************
-
-
-Function:		revolvePlanet
-
-
-Description:	Moves given planet around the sun
-
-
-*************************************************************************/
-void revolvePlanet(double xRadius, double yRadius, GLfloat planet[3], double yPos, double speed)
-{
-	planet[0] = xRadius * cos(theta * speed) + 0.0;
-	planet[1] = yRadius  * sin(theta * speed) + yPos ;
-	planet[2] = -1.0;
-}
 
 /************************************************************************
 
@@ -274,22 +272,7 @@ Description:	 Handles idle functionality
 void myIdle()
 {	
 	//increase angle
-	theta += 0.001; 
-	// as long as circle is not complete
-	if (theta < 2 * PI)
-	{
-		revolvePlanet(0.5, 0.05, P1, 0.5, 4.2);
-		revolvePlanet(0.7, 0.05, P2, 0.6, 5.5);
-		revolvePlanet(0.3, 0.07, P3, 0.4, 3.0);
-		revolvePlanet(0.4, 0.03, P4, 0.2, 2.15);
-		revolvePlanet(0.8, 0.06, P5, 0.5, 2.5);
-		revolvePlanet(0.4, 0.04, P6, 0.7, 2.6);
-	}
-	else
-	{
-		//reset angle
-		theta = 0.0;
-	}
+	theta += 0.01; 
 
 	// force glut to redraw display
 	glutPostRedisplay();
