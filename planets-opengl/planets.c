@@ -24,6 +24,8 @@ GLint windowWidth = 800;
 
 // determines whether stars should be shown
 GLint showStars = 0;
+// determines whether the sun's corona should be shown
+GLint showCorona = 0;
 
 // pi
 const float PI = 3.141592653;
@@ -166,8 +168,11 @@ void myDisplay()
 	//load identitiy matrix to reset 
 	glLoadIdentity();
 
-	//draw the sun's corona
-	drawSunCorona();
+	//draw the sun's corona if c is pressed
+	if (showCorona)
+	{
+		drawSunCorona();
+	}
 
 	glPopMatrix();
 
@@ -375,6 +380,16 @@ void myKey(unsigned char key, int x, int y)
 		else
 		{
 			showStars = 1;
+		}
+		break;
+	case('c'):
+		if (showCorona)
+		{
+			showCorona = 0;
+		}
+		else
+		{
+			showCorona = 1;
 		}
 		break;
 	}
