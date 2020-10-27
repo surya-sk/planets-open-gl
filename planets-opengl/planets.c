@@ -161,45 +161,58 @@ void myDisplay()
 	glColor3f(1.0, 1.0, -1.0);
 	glTranslatef(0.0, 0.5, z);
 	gluSphere(quad, 0.2, 100, 20);
+
+	//load identitiy matrix to reset 
+	glLoadIdentity();
+
+	//draw the sun's corona
+	drawSunCorona();
+
 	glPopMatrix();
 
+	//draw planets and their moons
 	drawPlanetsAndMoons(quad);
 
 
-
 	glLoadIdentity();
 
-	//glRotatef(theta/10, 0.0, 1.0, 0.0);
-	////glTranslatef(0.4, 0.0, 0.0);
-	//glBegin(GL_LINES);
-	//for (int i = 0; i < NUM_LINES; i++)
-	//{
-	//	glLineWidth(0.5);
-	//	glColor3f(1.0, 1.0, -1.0);
-	//	glVertex2f(xCorona[i],yCorona[i]);
-	//	glVertex2f(0.0, 0.5);
-	//	
-	//}
-	//glEnd();
-
-	glLoadIdentity();
 	// draw stars if s is pressed
 	if (showStars)
 	{
 		drawStars();
 	}
-
-
-
-		fileStream = fopen("enterprise.txt", "r");
-		fgets(fileText, 100, fileStream);
-		fscanf(fileStream, "%[^\n]", fileText);
-		printf("%s ", fileText);
-		fclose(fileStream);
 	
 	
 	// switch to the other buffer
 	glutSwapBuffers();
+}
+
+
+/************************************************************************
+
+
+Function:		drawSunCorona
+
+
+Description:	Draws the sun's corona
+
+
+*************************************************************************/
+void drawSunCorona()
+{
+	glTranslatef(0.0, 0.5, 0.0);
+	for (int i = 0; i < 700; i++)
+	{
+		glRotatef(float_rand(0, 2 * PI), 0.0, 0.0, 1.0);
+		
+		glBegin(GL_LINES);
+
+		glColor3f(1.0, 1.0, -1.0);
+		glVertex2f(-0.25, 0.0);
+		glVertex2f(-0.2, 0.0);
+
+		glEnd();
+	}
 }
 
 /************************************************************************
