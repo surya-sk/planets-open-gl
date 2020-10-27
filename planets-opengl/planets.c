@@ -16,6 +16,8 @@ Author:			Surya Kashyap
 #include <time.h>
 #include "planets.h"
 
+#pragma warning(disable:4996)
+
 // window dimensions
 GLint windowHeight = 800;
 GLint windowWidth = 800;
@@ -38,13 +40,27 @@ GLfloat P6[3] = { 0.6, 0.3, 0.0 };
 // angle for rotating planets and moons
 float theta = 0;
 
+//array with coordinates 
 GLfloat arr[21] = { 0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,-0.1,-0.2,-0.3,-0.4,-0.5,-0.6,-0.7,-0.8,-0.9,-1.0 };
-
+// points for the stars
 GLfloat starPoints[21];
 
+// colors for stars
 GLfloat starColors[2] = { 0.0, 1.0 };
 
+// number of lines for the sun's corona
+const int NUM_LINES = 2000;
+
+// points for the sun's corona
+GLfloat xCorona[2000];
+GLfloat yCorona[2000];
+
+// file stream to access directory 
+FILE *fileStream;
+char fileText[100];
+
 GLfloat z = 0.0;
+
 
 /************************************************************************
 
@@ -61,6 +77,12 @@ int getRandomNumber(int min, int max)
 {
 	int num = (rand() % (max - min + 1) + min);
 	return num;
+}
+
+float float_rand(float min, float max)
+{
+	float scale = rand() / (float)RAND_MAX; /* [0, 1.0] */
+	return min + scale * (max - min);      /* [min, max] */
 }
 
 /************************************************************************
@@ -103,6 +125,12 @@ void initializeGL()
 		starPoints[i] = arr[getRandomNumber(0,20)];
 	}
 
+	for (int i = 0; i < NUM_LINES; i++)
+	{
+		xCorona[i] = float_rand(-0.2125, 0.2321);
+		yCorona[i] = float_rand(0.2823, 0.6920);
+	}
+
 
 }
 
@@ -127,25 +155,48 @@ void myDisplay()
 	quad = gluNewQuadric();
 
 	glMatrixMode(GL_MODELVIEW);
-	//glPopMatrix();
+	glPushMatrix();
 	glLoadIdentity();
 	// draw the sun
 	glColor3f(1.0, 1.0, -1.0);
 	glTranslatef(0.0, 0.5, z);
-	gluSphere(quad, 0.3, 100, 20);
-	//glLoadIdentity();
-	
+	gluSphere(quad, 0.2, 100, 20);
+	glPopMatrix();
 
-	glTranslatef(0.4, 0, 0);
 	drawPlanetsAndMoons(quad);
 
-	//glPushMatrix();
 
+
+	glLoadIdentity();
+
+	//glRotatef(theta/10, 0.0, 1.0, 0.0);
+	////glTranslatef(0.4, 0.0, 0.0);
+	//glBegin(GL_LINES);
+	//for (int i = 0; i < NUM_LINES; i++)
+	//{
+	//	glLineWidth(0.5);
+	//	glColor3f(1.0, 1.0, -1.0);
+	//	glVertex2f(xCorona[i],yCorona[i]);
+	//	glVertex2f(0.0, 0.5);
+	//	
+	//}
+	//glEnd();
+
+	glLoadIdentity();
 	// draw stars if s is pressed
 	if (showStars)
 	{
 		drawStars();
 	}
+
+
+
+		fileStream = fopen("enterprise.txt", "r");
+		fgets(fileText, 100, fileStream);
+		fscanf(fileStream, "%[^\n]", fileText);
+		printf("%s ", fileText);
+		fclose(fileStream);
+	
 	
 	// switch to the other buffer
 	glutSwapBuffers();
@@ -157,7 +208,7 @@ void myDisplay()
 Function:		drawStars
 
 
-Description:	Draws stars with randomly changing colors
+Description:	Draws 100 stars with randomly changing colors
 
 
 *************************************************************************/
@@ -188,74 +239,84 @@ Description:	Draws 6 planets and 4 moons
 void drawPlanetsAndMoons(GLUquadric * quad)
 {
 	// planet
-	glLoadIdentity();
+	glPushMatrix();
 	glColor3f(1.0, 0.0, 0.0);
 	glRotatef(theta * 10, 0.0, 1.0, 0.0);
 	glTranslatef(P1[0], P1[1], 1.0);
 	gluSphere(quad, 0.05, 100, 20);
+	glPopMatrix();
 
 	// moon
-	glLoadIdentity();
+	glPushMatrix();
 	glColor3f(1.0, 1.0, 1.0);
 	glRotatef(theta * 10, 0.0, 1.0, 0.0);
 	glTranslatef(P1[0] + 0.06, P1[1] - 0.02, P1[2]);
 	gluSphere(quad, 0.01, 100, 20);
+	glPopMatrix();
 
 	// planet
-	glLoadIdentity();
+	glPushMatrix();
 	glColor3f(1.0, 0.5, 0.0);
 	glRotatef(theta * 10, 0.0, 1.0, 0.0);
 	glTranslatef(P1[0], P2[1], P2[2]);
 	gluSphere(quad, 0.04, 100, 20);
+	glPopMatrix();
 
 	// planet
-	glLoadIdentity();
+	glPushMatrix();
 	glColor3f(0.5, 1.0, 0.5);
 	glRotatef(theta * 10, 0.0, 1.0, 0.0);
 	glTranslatef(P1[0], P3[1], P3[2]);
 	gluSphere(quad, 0.03, 100, 20);
+	glPopMatrix();
 
 	// moon
-	glLoadIdentity();
+	glPushMatrix();
 	glColor3f(1.0, 1.0, 1.0);
 	glRotatef(theta * 10, 0.0, 1.0, 0.0);
 	glTranslatef(P1[0] + 0.06, P3[1] + 0.04, P3[2]);
 	gluSphere(quad, 0.01, 100, 20);
+	glPopMatrix();
 
 	// planet
-	glLoadIdentity();
+	glPushMatrix();
 	glColor3f(0.0, 1.0, 0.0);
 	glRotatef(theta * 20, 0.0, 1.0, 0.0);
 	glTranslatef(P1[0], P4[1], P4[2]);
 	gluSphere(quad, 0.05, 100, 20);
+	glPopMatrix();
 
 	// moon
-	glLoadIdentity();
+	glPushMatrix();
 	glColor3f(1.0, 1.0, 1.0);
 	glRotatef(theta * 20, 0.0, 1.0, 0.0);
 	glTranslatef(P1[0] + 0.03, P4[1] - 0.02, P4[2]);
 	gluSphere(quad, 0.01, 100, 20);
+	glPopMatrix();
 
 	// planet
-	glLoadIdentity();
+	glPushMatrix();
 	glColor3f(0.0, 0.0, 1.0);
 	glRotatef(theta * 40, 0.0, 1.0, 0.0);
 	glTranslatef(P5[0], P5[1], P5[2]);
 	gluSphere(quad, 0.065, 100, 20);
+	glPopMatrix();
 
 	// moon
-	glLoadIdentity();
+	glPushMatrix();
 	glColor3f(1.0, 1.0, 1.0);
 	glRotatef(theta * 40, 0.0, 1.0, 0.0);
 	glTranslatef(P5[0] + 0.04, P5[1] - 0.06, P5[2]);
 	gluSphere(quad, 0.01, 100, 20);
+	glPopMatrix();
 
 	// planet
-	glLoadIdentity();
+	glPushMatrix();
 	glColor3f(1.0, 0.0, 0.5);
 	glRotatef(theta * 10, 0.0, 1.0, 0.0);
 	glTranslatef(P6[0], P6[1], P6[2]);
 	gluSphere(quad, 0.06, 100, 20);
+	glPopMatrix();
 }
 
 
@@ -273,7 +334,6 @@ void myIdle()
 {	
 	//increase angle
 	theta += 0.01; 
-
 	// force glut to redraw display
 	glutPostRedisplay();
 }
@@ -345,5 +405,7 @@ void main(int argc, char** argv)
 
 	// go into perpetual loop
 	glutMainLoop();
+
+
 
 }
