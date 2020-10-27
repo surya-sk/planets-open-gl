@@ -49,17 +49,14 @@ GLfloat starPoints[21];
 GLfloat starColors[2] = { 0.0, 1.0 };
 
 // number of lines for the sun's corona
-const int NUM_LINES = 2000;
+const int NUM_LINES = 700;
 
-// points for the sun's corona
-GLfloat xCorona[2000];
-GLfloat yCorona[2000];
 
 // file stream to access directory 
 FILE *fileStream;
 char fileText[100];
 
-GLfloat z = 0.0;
+
 
 
 /************************************************************************
@@ -79,7 +76,17 @@ int getRandomNumber(int min, int max)
 	return num;
 }
 
-float float_rand(float min, float max)
+/************************************************************************
+
+
+Function:		getRandomFloat
+
+
+Description:	Generates a random float between min and max
+
+
+*************************************************************************/
+float getRandomFloat(float min, float max)
 {
 	float scale = rand() / (float)RAND_MAX; /* [0, 1.0] */
 	return min + scale * (max - min);      /* [min, max] */
@@ -125,12 +132,6 @@ void initializeGL()
 		starPoints[i] = arr[getRandomNumber(0,20)];
 	}
 
-	for (int i = 0; i < NUM_LINES; i++)
-	{
-		xCorona[i] = float_rand(-0.2125, 0.2321);
-		yCorona[i] = float_rand(0.2823, 0.6920);
-	}
-
 
 }
 
@@ -159,7 +160,7 @@ void myDisplay()
 	glLoadIdentity();
 	// draw the sun
 	glColor3f(1.0, 1.0, -1.0);
-	glTranslatef(0.0, 0.5, z);
+	glTranslatef(0.0, 0.5, 0.0);
 	gluSphere(quad, 0.2, 100, 20);
 
 	//load identitiy matrix to reset 
@@ -201,9 +202,9 @@ Description:	Draws the sun's corona
 void drawSunCorona()
 {
 	glTranslatef(0.0, 0.5, 0.0);
-	for (int i = 0; i < 700; i++)
+	for (int i = 0; i < NUM_LINES; i++)
 	{
-		glRotatef(float_rand(0, 2 * PI), 0.0, 0.0, 1.0);
+		glRotatef(getRandomFloat(0, 2 * PI), 0.0, 0.0, 1.0);
 		
 		glBegin(GL_LINES);
 
