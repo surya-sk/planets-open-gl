@@ -51,7 +51,7 @@ GLfloat starPoints[21];
 GLfloat starColors[2] = { 0.0, 1.0 };
 
 // number of lines for the sun's corona
-const int NUM_LINES = 700;
+const int NUM_LINES = 900;
 
 
 // file stream to access directory 
@@ -206,6 +206,12 @@ Description:	Draws the sun's corona
 *************************************************************************/
 void drawSunCorona()
 {
+	//enable blending for transparency
+	glEnable(GL_BLEND);
+
+	//set the blending mode
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glTranslatef(0.0, 0.5, 0.0);
 	for (int i = 0; i < NUM_LINES; i++)
 	{
@@ -213,8 +219,9 @@ void drawSunCorona()
 		
 		glBegin(GL_LINES);
 
-		glColor3f(1.0, 1.0, -1.0);
+		glColor4f(1.0, 1.0, 0.0, 0.0);
 		glVertex2f(-0.25, 0.0);
+		glColor4f(1.0, 1.0, -1.0, 1.0);
 		glVertex2f(-0.2, 0.0);
 
 		glEnd();
