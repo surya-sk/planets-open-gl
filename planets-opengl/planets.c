@@ -51,15 +51,18 @@ GLfloat starPoints[21];
 GLfloat starColors[2] = { 0.0, 1.0 };
 
 // number of lines for the sun's corona
-const int NUM_LINES = 900;
+const int NUM_LINES = 2000;
 
 
 // file stream to access directory 
 FILE *fileStream;
 char fileText[100];
 
+// vertices for enterprise
+GLfloat entVertices[1201][3];
 
-
+// faces for enterprise
+int entFaces[1989][3];
 
 /************************************************************************
 
@@ -133,7 +136,37 @@ void initializeGL()
 	{
 		starPoints[i] = arr[getRandomNumber(0,20)];
 	}
+	fileStream = fopen("enterprise.txt", "r");
+	
+	GLfloat x, y, z;
+	int xFace, yFace, zFace;
+	int i = 0, j = 0;
+	while (fgets(fileText, sizeof fileText, fileStream))
+	{
+		if (fileText[0] == 'v')
+		{
+			if (sscanf(fileText, "v %f %f %f", &x, &y, &z) != 3) { break; }
+			//printf("%f %f %f\n", x, y ,z);
+			entVertices[i][0] = x;
+			entVertices[i][1] = y;
+			entVertices[i][2] = z;
 
+			i++;
+		}
+		else if (fileText[0] == 'f')
+		{
+			if (sscanf(fileText, "f %d %d %d", &xFace, &yFace, &zFace) != 3) { break; }
+			//printf("%d %d %d\n", xFace, yFace ,zFace);
+			entFaces[j][0] = xFace;
+			entFaces[j][1] = yFace;
+			entFaces[j][2] = zFace;
+
+			j++;
+		}
+		
+	}
+	fclose(fileStream);
+	printf("%d", j);
 
 }
 
@@ -188,7 +221,7 @@ void myDisplay()
 		drawStars();
 	}
 	
-	
+
 	// switch to the other buffer
 	glutSwapBuffers();
 }
@@ -267,8 +300,10 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	// planet
 	glPushMatrix();
 	glColor3f(1.0, 0.0, 0.0);
+	glTranslatef(P1[0], P1[1], 3.0);
 	glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	glTranslatef(P1[0], P1[1], 1.0);
+	glTranslatef(-P1[0], -P1[1], -3.0);
+	//glTranslatef(P1[0], P1[1], 3.0);
 	gluSphere(quad, 0.05, 100, 20);
 	glPopMatrix();
 
