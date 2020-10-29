@@ -129,6 +129,12 @@ void initializeGL()
 	// set to projection mode 
 	glMatrixMode(GL_PROJECTION);
 
+	// clear any previous transformations
+	glLoadIdentity();
+
+	// set the perspective 
+	gluPerspective(45, (float)windowWidth / (float)windowHeight, 0.1, 20);
+
 	// set the shade model
 	glShadeModel(GL_SMOOTH);
 
@@ -137,17 +143,35 @@ void initializeGL()
 
 	// load identity matrix
 	glLoadIdentity();
+
+	// change to model-view to move objects and camera
+	glMatrixMode(GL_MODELVIEW);
 	
-	glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 10.0);
-	//gluPerspective(90, (float)windowWidth / (float)windowHeight, 0.1, 20);
+	//glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 10.0);
 
 	// assign random numbers to star points
 	for (int i = 0; i < 200; i++)
 	{
 		starPoints[i] = arr[getRandomNumber(0,20)];
 	}
+	readEnterpriseFile();
+
+}
+
+/************************************************************************
+
+
+Function:		readEnterpriseFile
+
+
+Description:	 Reads the vertices and faces from enterprise.txt file
+
+
+*************************************************************************/
+void readEnterpriseFile()
+{
 	fileStream = fopen("enterprise.txt", "r");
-	
+
 	GLfloat x, y, z;
 	int xFace, yFace, zFace;
 	int i = 0, j = 0;
@@ -173,11 +197,9 @@ void initializeGL()
 
 			j++;
 		}
-		
+
 	}
 	fclose(fileStream);
-	printf("%d", j);
-
 }
 
 /************************************************************************
@@ -197,16 +219,15 @@ void myDisplay()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
 	
+	glLoadIdentity();
 
 	// set the camera position
 	gluLookAt(cameraPosition[0], cameraPosition[1], cameraPosition[2],
 		0, 0, 0,
 		0, 1, 0);
 
+	glLoadIdentity();
 	//initialize quad
 	GLUquadric *quad;
 	quad = gluNewQuadric();
