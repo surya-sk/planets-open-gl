@@ -452,6 +452,24 @@ void myIdle()
 	//increase angle
 	theta += 0.01; 
 
+	determineMovement();
+
+	// force glut to redraw display
+	glutPostRedisplay();
+}
+
+/************************************************************************
+
+
+Function:		determineMovement
+
+
+Description:	 Determines movement based on key presses
+
+
+*************************************************************************/
+void determineMovement()
+{
 	// map camera movement to keys
 	if (moveRight)
 	{
@@ -477,9 +495,6 @@ void myIdle()
 	{
 		cameraPosition[2] += interpDiff;
 	}
-
-	// force glut to redraw display
-	glutPostRedisplay();
 }
 
 /************************************************************************
