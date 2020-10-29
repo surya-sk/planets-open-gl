@@ -209,6 +209,7 @@ void myDisplay()
 
 	glPopMatrix();
 
+
 	//draw planets and their moons
 	drawPlanetsAndMoons(quad);
 
@@ -220,10 +221,44 @@ void myDisplay()
 	{
 		drawStars();
 	}
-	
+
+
+	glPushMatrix();
+
+	// draw the enterprise
+	drawEnterprise();
+
+	glPopMatrix();
 
 	// switch to the other buffer
 	glutSwapBuffers();
+}
+
+/************************************************************************
+
+
+Function:		drawEnterprise
+
+
+Description:	Draws the enterprise from the entVertices and entFaces 
+
+
+*************************************************************************/
+void drawEnterprise()
+{
+	glLoadIdentity();
+	glScalef(0.5, 0.5, 0.5);
+	glRotatef(30.0, 1.0, 0.0, 0.0);
+	glTranslatef(-0.4, -0.4, 0.0);
+	glBegin(GL_TRIANGLES);
+	for (int i = 0; i < 1989; i++)
+	{
+		glColor3f(1.0, 1.0, 1.0);
+		glVertex3f(entVertices[entFaces[i][0]][0], entVertices[entFaces[i][0]][1], entVertices[entFaces[i][0]][2]);
+		glVertex3f(entVertices[entFaces[i][1]][0], entVertices[entFaces[i][1]][1], entVertices[entFaces[i][1]][2]);
+		glVertex3f(entVertices[entFaces[i][2]][0], entVertices[entFaces[i][2]][1], entVertices[entFaces[i][2]][2]);
+	}
+	glEnd();
 }
 
 
