@@ -64,6 +64,15 @@ GLfloat entVertices[1201][3];
 // faces for enterprise
 int entFaces[1989][3];
 
+// camera position
+GLfloat cameraPosition[] = { 0.0,0.0, 1.0 };
+
+// difference added at each frame
+GLfloat interpDiff = 0.0005;
+
+// determine direction to move the camera in
+GLint moveUp, moveDown, moveRight, moveLeft, moveForward, moveBackward = 0;
+
 /************************************************************************
 
 
@@ -120,16 +129,17 @@ void initializeGL()
 	// set to projection mode 
 	glMatrixMode(GL_PROJECTION);
 
-	// load identity matrix
-	glLoadIdentity();
-
 	// set the shade model
 	glShadeModel(GL_SMOOTH);
 
 	// enable smooth line drawing
 	glEnable(GL_LINE_SMOOTH);
 
+	// load identity matrix
+	glLoadIdentity();
+	
 	glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 10.0);
+	//gluPerspective(90, (float)windowWidth / (float)windowHeight, 0.1, 20);
 
 	// assign random numbers to star points
 	for (int i = 0; i < 200; i++)
@@ -185,6 +195,17 @@ void myDisplay()
 {
 	// clear the screen 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	
+
+	// set the camera position
+	gluLookAt(cameraPosition[0], cameraPosition[1], cameraPosition[2],
+		0, 0, 0,
+		0, 1, 0);
 
 	//initialize quad
 	GLUquadric *quad;
@@ -249,7 +270,7 @@ void drawEnterprise()
 	glLoadIdentity();
 	glScalef(0.5, 0.5, 0.5);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef(-0.4, -0.4, 0.0);
+	glTranslatef(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 1989; i++)
 	{
@@ -354,7 +375,7 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	glPushMatrix();
 	glColor3f(1.0, 0.5, 0.0);
 	glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	glTranslatef(P1[0], P2[1], P2[2]);
+	glTranslatef(P2[0], P2[1], P2[2]);
 	gluSphere(quad, 0.04, 100, 20);
 	glPopMatrix();
 
@@ -362,7 +383,7 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	glPushMatrix();
 	glColor3f(0.5, 1.0, 0.5);
 	glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	glTranslatef(P1[0], P3[1], P3[2]);
+	glTranslatef(P3[0], P3[1], P3[2]);
 	gluSphere(quad, 0.03, 100, 20);
 	glPopMatrix();
 
@@ -370,7 +391,7 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	glPushMatrix();
 	glColor3f(1.0, 1.0, 1.0);
 	glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	glTranslatef(P1[0] + 0.06, P3[1] + 0.04, P3[2]);
+	glTranslatef(P3[0] + 0.06, P3[1] + 0.04, P3[2]);
 	gluSphere(quad, 0.01, 100, 20);
 	glPopMatrix();
 
@@ -378,7 +399,7 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	glPushMatrix();
 	glColor3f(0.0, 1.0, 0.0);
 	glRotatef(theta * 20, 0.0, 1.0, 0.0);
-	glTranslatef(P1[0], P4[1], P4[2]);
+	glTranslatef(P4[0], P4[1], P4[2]);
 	gluSphere(quad, 0.05, 100, 20);
 	glPopMatrix();
 
@@ -386,7 +407,7 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	glPushMatrix();
 	glColor3f(1.0, 1.0, 1.0);
 	glRotatef(theta * 20, 0.0, 1.0, 0.0);
-	glTranslatef(P1[0] + 0.03, P4[1] - 0.02, P4[2]);
+	glTranslatef(P4[0] + 0.03, P4[1] - 0.02, P4[2]);
 	gluSphere(quad, 0.01, 100, 20);
 	glPopMatrix();
 
@@ -430,6 +451,33 @@ void myIdle()
 {	
 	//increase angle
 	theta += 0.01; 
+
+	// map camera movement to keys
+	if (moveRight)
+	{
+		cameraPosition[0] += interpDiff;
+	}
+	if (moveLeft)
+	{
+		cameraPosition[0] -= interpDiff;
+	}
+	if (moveUp)
+	{
+		cameraPosition[1] += interpDiff;
+	}
+	if (moveDown)
+	{
+		cameraPosition[1] -= interpDiff;
+	}
+	if (moveForward)
+	{
+		cameraPosition[2] -= interpDiff;
+	}
+	if (moveBackward)
+	{
+		cameraPosition[2] += interpDiff;
+	}
+
 	// force glut to redraw display
 	glutPostRedisplay();
 }
@@ -459,6 +507,8 @@ void myKey(unsigned char key, int x, int y)
 			showStars = 1;
 		}
 		break;
+
+	//show or hide corona if 'c' is pressed
 	case('c'):
 		if (showCorona)
 		{
@@ -470,6 +520,58 @@ void myKey(unsigned char key, int x, int y)
 		}
 		break;
 	}
+}
+
+
+/************************************************************************
+
+
+Function:		specialKeys
+
+
+Description:	Handles special key press functionality
+
+
+*************************************************************************/
+void specialKeys(int key, int x, int y)
+{
+	switch (key)
+	{
+	case GLUT_KEY_RIGHT:
+		moveRight = 1;
+		break;
+	case GLUT_KEY_LEFT:
+		moveLeft = 1;
+		break;
+	case GLUT_KEY_UP:
+		moveUp = 1;
+		break;
+	case GLUT_KEY_DOWN:
+		moveDown = 1;
+		break;
+	case GLUT_KEY_PAGE_UP:
+		moveForward = 1;
+		break;
+	case GLUT_KEY_PAGE_DOWN:
+		moveBackward = 1;
+		break;
+	}
+
+}
+
+/************************************************************************
+
+
+Function:		myKeyUp
+
+
+Description:	Handles key release functionality
+
+
+*************************************************************************/
+void myKeyUp(int key, int x, int y)
+{
+
 }
 
 
@@ -505,6 +607,12 @@ void main(int argc, char** argv)
 
 	// keyboard function
 	glutKeyboardFunc(myKey);
+
+	// when key has been released
+	glutKeyboardUpFunc(myKeyUp);
+
+	// special keys function
+	glutSpecialFunc(specialKeys);
 
 	// initialize the rendering context
 	initializeGL();
