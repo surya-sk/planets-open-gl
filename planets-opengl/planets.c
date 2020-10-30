@@ -31,12 +31,12 @@ GLint showCorona = 0;
 const float PI = 3.141592653;
 
 // coordinates for the 6 planets
-GLfloat P1[3] = { -0.6, 0.0, 0.0 };
-GLfloat P2[3] = { -0.6, 0.0, 0.0 };
-GLfloat P3[3] = { 0.4, 0.0, 0.0 };
-GLfloat P4[3] = { 0.43, 0.0, 0.0 };
-GLfloat P5[3] = { 0.5, 0.0, 0.0 };
-GLfloat P6[3] = { 0.6, 0.0, 0.0 };
+GLfloat P1[3] = { -0.6, 0.0, 0.5 };
+GLfloat P2[3] = { -0.6, 0.0, 0.3 };
+GLfloat P3[3] = { 0.4, 0.0, 0.9 };
+GLfloat P4[3] = { 0.43, 0.0, 0.2 };
+GLfloat P5[3] = { 0.5, 0.0, 0.7 };
+GLfloat P6[3] = { 0.6, 0.0, 0.4 };
 
 
 // angle for rotating planets and moons
@@ -135,6 +135,9 @@ void initializeGL()
 	// set the perspective 
 	gluPerspective(45, (float)windowWidth / (float)windowHeight, 0.1, 20);
 
+
+	//glTranslatef(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
+
 	// set the shade model
 	glShadeModel(GL_SMOOTH);
 
@@ -144,11 +147,6 @@ void initializeGL()
 	// enable depth testing
 	glEnable(GL_DEPTH_TEST);
 
-	// load identity matrix
-	glLoadIdentity();
-
-	// change to model-view to move objects and camera
-	glMatrixMode(GL_MODELVIEW);
 	
 	//glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 10.0);
 
@@ -222,44 +220,52 @@ void myDisplay()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-	
+	// set to projection mode 
+	glMatrixMode(GL_MODELVIEW);
+
 	glLoadIdentity();
 
 	// set the camera position
 	gluLookAt(cameraPosition[0], cameraPosition[1], cameraPosition[2],
-		0, 0, 0,
+		cameraPosition[0], cameraPosition[1], cameraPosition[2]-100,
 		0, 1, 0);
 
-	glLoadIdentity();
+	//glLoadIdentity();
+
+
+	//glMatrixMode(GL_MODELVIEW);
+
+
 	//initialize quad
 	GLUquadric *quad;
 	quad = gluNewQuadric();
 
-	glMatrixMode(GL_MODELVIEW);
+	
+
+	// draw the enterprise
+	drawEnterprise();
+
+	glTranslatef(-cameraPosition[0], -cameraPosition[1], -cameraPosition[2]);
+
 	glPushMatrix();
-	glLoadIdentity();
-	// draw the sun
+
+	 //draw the sun
 	glColor3f(1.0, 1.0, -1.0);
 	glTranslatef(0.0, 0.0, 0.0);
 	gluSphere(quad, 0.2, 100, 20);
 
-	//load identitiy matrix to reset 
-	glLoadIdentity();
 
-	//draw the sun's corona if c is pressed
-	if (showCorona)
-	{
-		drawSunCorona();
-	}
+
 
 	glPopMatrix();
+
 
 
 	//draw planets and their moons
 	drawPlanetsAndMoons(quad);
 
 
-	glLoadIdentity();
+
 
 	// draw stars if s is pressed
 	if (showStars)
@@ -268,15 +274,29 @@ void myDisplay()
 	}
 
 
-	glPushMatrix();
 
-	// draw the enterprise
-	drawEnterprise();
 
-	glPopMatrix();
+	//draw the sun's corona if c is pressed
+	if (showCorona)
+	{
+		drawSunCorona();
+	}
 
 	// switch to the other buffer
 	glutSwapBuffers();
+}
+
+void drawOrbits(float xRadius, float yRadius)
+{
+	glBegin(GL_LINES);
+	GLfloat x, y,z,  angle;
+	for (angle = 0.0; angle <= (2 * PI); angle += 0.01) 
+	{
+		x = xRadius * cos(angle);
+		z = yRadius * sin(angle); 
+		glVertex3f(x, 0.0, z); 
+	}  
+	glEnd();
 }
 
 /************************************************************************
@@ -291,10 +311,10 @@ Description:	Draws the enterprise from the entVertices and entFaces
 *************************************************************************/
 void drawEnterprise()
 {
-	glLoadIdentity();
+	glPushMatrix();
 	glScalef(0.4, 0.4, 0.4);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef(cameraPosition[0]-0.4, cameraPosition[1]-0.4, cameraPosition[2]);
+	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 1989; i++)
 	{
@@ -304,6 +324,8 @@ void drawEnterprise()
 		glVertex3f(entVertices[entFaces[i][2]][0], entVertices[entFaces[i][2]][1], entVertices[entFaces[i][2]][2]);
 	}
 	glEnd();
+	glPopMatrix();
+	//glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
 }
 
 
@@ -324,7 +346,7 @@ void drawSunCorona()
 
 	//set the blending mode
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	glPushMatrix();
 	glTranslatef(0.0, 0.0, 0.0);
 	for (int i = 0; i < NUM_LINES; i++)
 	{
@@ -339,6 +361,7 @@ void drawSunCorona()
 
 		glEnd();
 	}
+	glPopMatrix();
 }
 
 /************************************************************************
@@ -353,14 +376,13 @@ Description:	Draws 100 stars with randomly changing colors
 *************************************************************************/
 void drawStars()
 {
-	glLoadIdentity();
 	glPointSize(1.0);
 	// draw stars
 	glBegin(GL_POINTS);
 	for (int i = 0; i < 200; i++)
 	{
 		glColor3f(starColors[getRandomNumber(0, 1)], starColors[getRandomNumber(0, 1)], starColors[getRandomNumber(0, 1)]);
-		glVertex3f(starPoints[i], starPoints[i++], -1.0);
+		glVertex3f(starPoints[i], starPoints[i++], 0.0);
 	}
 	glEnd();
 }
@@ -385,6 +407,8 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	gluSphere(quad, 0.05, 100, 20);
 	glPopMatrix();
 
+	//drawOrbits(0.5,0.5);
+
 	// moon
 	glPushMatrix();
 	glColor3f(1.0, 1.0, 1.0);
@@ -404,7 +428,7 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	// planet
 	glPushMatrix();
 	glColor3f(0.5, 1.0, 0.5);
-	glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	glRotatef(theta * 35, 0.0, 1.0, 0.0);
 	glTranslatef(P3[0], P3[1], P3[2]);
 	gluSphere(quad, 0.03, 100, 20);
 	glPopMatrix();
@@ -412,7 +436,7 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	// moon
 	glPushMatrix();
 	glColor3f(1.0, 1.0, 1.0);
-	glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	glRotatef(theta * 35, 0.0, 1.0, 0.0);
 	glTranslatef(P3[0] + 0.06, P3[1] + 0.04, P3[2]);
 	gluSphere(quad, 0.01, 100, 20);
 	glPopMatrix();

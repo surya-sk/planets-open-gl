@@ -8,4 +8,6 @@ void drawSunCorona();
 
 void drawEnterprise();
 
+void drawOrbits();
+
 void readEnterpriseFile();
