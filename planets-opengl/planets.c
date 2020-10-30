@@ -19,8 +19,8 @@ Author:			Surya Kashyap
 #pragma warning(disable:4996)
 
 // window dimensions
-GLint windowHeight = 800;
-GLint windowWidth = 800;
+GLint windowHeight = 600;
+GLint windowWidth = 600;
 
 // determines whether stars should be shown
 GLint showStars = 0;
@@ -31,12 +31,12 @@ GLint showCorona = 0;
 const float PI = 3.141592653;
 
 // coordinates for the 6 planets
-GLfloat P1[3] = { -0.6, 0.5, 0.0 };
-GLfloat P2[3] = { -0.6, 0.53, 0.0 };
-GLfloat P3[3] = { 0.4, 0.2, 0.0 };
-GLfloat P4[3] = { 0.43, 0.6, 0.0 };
-GLfloat P5[3] = { 0.5, 0.5, 0.0 };
-GLfloat P6[3] = { 0.6, 0.3, 0.0 };
+GLfloat P1[3] = { -0.6, 0.0, 0.0 };
+GLfloat P2[3] = { -0.6, 0.0, 0.0 };
+GLfloat P3[3] = { 0.4, 0.0, 0.0 };
+GLfloat P4[3] = { 0.43, 0.0, 0.0 };
+GLfloat P5[3] = { 0.5, 0.0, 0.0 };
+GLfloat P6[3] = { 0.6, 0.0, 0.0 };
 
 
 // angle for rotating planets and moons
@@ -141,6 +141,9 @@ void initializeGL()
 	// enable smooth line drawing
 	glEnable(GL_LINE_SMOOTH);
 
+	// enable depth testing
+	glEnable(GL_DEPTH_TEST);
+
 	// load identity matrix
 	glLoadIdentity();
 
@@ -237,7 +240,7 @@ void myDisplay()
 	glLoadIdentity();
 	// draw the sun
 	glColor3f(1.0, 1.0, -1.0);
-	glTranslatef(0.0, 0.5, 0.0);
+	glTranslatef(0.0, 0.0, 0.0);
 	gluSphere(quad, 0.2, 100, 20);
 
 	//load identitiy matrix to reset 
@@ -289,9 +292,9 @@ Description:	Draws the enterprise from the entVertices and entFaces
 void drawEnterprise()
 {
 	glLoadIdentity();
-	glScalef(0.5, 0.5, 0.5);
+	glScalef(0.4, 0.4, 0.4);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
+	glTranslatef(cameraPosition[0]-0.4, cameraPosition[1]-0.4, cameraPosition[2]);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 1989; i++)
 	{
@@ -322,7 +325,7 @@ void drawSunCorona()
 	//set the blending mode
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glTranslatef(0.0, 0.5, 0.0);
+	glTranslatef(0.0, 0.0, 0.0);
 	for (int i = 0; i < NUM_LINES; i++)
 	{
 		glRotatef(getRandomFloat(0, 2 * PI), 0.0, 0.0, 1.0);
@@ -377,10 +380,8 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	// planet
 	glPushMatrix();
 	glColor3f(1.0, 0.0, 0.0);
-	glTranslatef(P1[0], P1[1], 3.0);
 	glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	glTranslatef(-P1[0], -P1[1], -3.0);
-	//glTranslatef(P1[0], P1[1], 3.0);
+	glTranslatef(P1[0], P1[1], P1[2]);
 	gluSphere(quad, 0.05, 100, 20);
 	glPopMatrix();
 
@@ -607,7 +608,27 @@ Description:	Handles key release functionality
 *************************************************************************/
 void myKeyUp(int key, int x, int y)
 {
-
+	switch (key)
+	{
+	case GLUT_KEY_RIGHT:
+		moveRight = 0;
+		break;
+	case GLUT_KEY_LEFT:
+		moveLeft = 0;
+		break;
+	case GLUT_KEY_UP:
+		moveUp = 0;
+		break;
+	case GLUT_KEY_DOWN:
+		moveDown = 0;
+		break;
+	case GLUT_KEY_PAGE_UP:
+		moveForward = 0;
+		break;
+	case GLUT_KEY_PAGE_DOWN:
+		moveBackward = 0;
+		break;
+	}
 }
 
 
@@ -645,7 +666,7 @@ void main(int argc, char** argv)
 	glutKeyboardFunc(myKey);
 
 	// when key has been released
-	glutKeyboardUpFunc(myKeyUp);
+	glutSpecialUpFunc(myKeyUp);
 
 	// special keys function
 	glutSpecialFunc(specialKeys);
