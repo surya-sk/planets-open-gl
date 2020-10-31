@@ -64,6 +64,24 @@ GLfloat entVertices[1201][3];
 // faces for enterprise
 int entFaces[1989][3];
 
+// vertices for voyager
+GLfloat voyVertices[4409][3];
+
+// faces for voyager
+int voyFaces[6623][3];
+
+// vertices for camel
+GLfloat camVertices[2443][3];
+
+// faces for camel
+int camFaces[4884][3];
+
+// vertices for klingon
+GLfloat kliVertices[1610][3];
+
+// faces for klingon
+int kliFaces[3191][3];
+
 // camera position
 GLfloat cameraPosition[] = { 0.0,0.0, 1.0 };
 
@@ -135,9 +153,6 @@ void initializeGL()
 	// set the perspective 
 	gluPerspective(45, (float)windowWidth / (float)windowHeight, 0.1, 20);
 
-
-	//glTranslatef(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
-
 	// set the shade model
 	glShadeModel(GL_SMOOTH);
 
@@ -157,6 +172,124 @@ void initializeGL()
 	}
 	readEnterpriseFile();
 
+	readVoyagerFile();
+
+	readCamelFile();
+
+	readKlingonFile();
+}
+
+/************************************************************************
+
+
+Function:		readKlingonFile
+
+
+Description:	 Reads the vertices and faces from klingon.txt file
+
+
+*************************************************************************/
+void readKlingonFile()
+{
+	fileStream = fopen("klingon.txt", "r");
+
+	GLfloat x, y, z;
+	int xFace, yFace, zFace;
+	int i = 0, j = 0;
+	while (fgets(fileText, sizeof fileText, fileStream))
+	{
+		if (fileText[0] == 'v')
+		{
+			if (sscanf(fileText, "v %f %f %f", &x, &y, &z) != 3) { break; }
+			kliVertices[i][0] = x;
+			kliVertices[i][1] = y;
+			kliVertices[i][2] = z;
+			i++;
+		}
+		else if (fileText[0] == 'f')
+		{
+			if (sscanf(fileText, "f %d %d %d", &xFace, &yFace, &zFace) != 3) { break; }
+			kliFaces[j][0] = xFace;
+			kliFaces[j][1] = yFace;
+			kliFaces[j][2] = zFace;
+			j++;
+		}
+	}
+}
+
+/************************************************************************
+
+
+Function:		readCamelFile
+
+
+Description:	 Reads the vertices and faces from camel.txt file
+
+
+*************************************************************************/
+void readCamelFile()
+{
+	fileStream = fopen("camel.txt", "r");
+	GLfloat x, y, z;
+	int xFace, yFace, zFace;
+	int i = 0, j = 0;
+	while (fgets(fileText, sizeof fileText, fileStream))
+	{
+		if (fileText[0] == 'v')
+		{
+			if (sscanf(fileText, "v %f %f %f", &x, &y, &z) != 3) { break; }
+			camVertices[i][0] = x;
+			camVertices[i][1] = y;
+			camVertices[i][2] = z;
+			i++;
+		}
+		else if (fileText[0] == 'f')
+		{
+			if (sscanf(fileText, "f %d %d %d", &xFace, &yFace, &zFace) != 3) { break; }
+			camFaces[j][0] = xFace;
+			camFaces[j][1] = yFace;
+			camFaces[j][2] = zFace;
+			j++;
+		}
+	}
+}
+
+/************************************************************************
+
+
+Function:		readVoyagerFile
+
+
+Description:	 Reads the vertices and faces from voyager.txt file
+
+
+*************************************************************************/
+void readVoyagerFile()
+{
+	fileStream = fopen("voyager.txt", "r");
+	GLfloat x, y, z;
+	int xFace, yFace, zFace;
+	int i = 0, j = 0;
+	while (fgets(fileText, sizeof fileText, fileStream))
+	{
+		if (fileText[0] == 'v')
+		{
+			if (sscanf(fileText, "v %f %f %f", &x, &y, &z) != 3) { break; }
+			//printf("%f %f %f\n", x, y ,z);
+			voyVertices[i][0] = x;
+			voyVertices[i][1] = y;
+			voyVertices[i][2] = z;
+			i++;
+		}
+		else if (fileText[0] == 'f')
+		{
+			if (sscanf(fileText, "f %d %d %d", &xFace, &yFace, &zFace) != 3) { break; }
+			voyFaces[j][0] = xFace;
+			voyFaces[j][1] = yFace;
+			voyFaces[j][2] = zFace;
+			j++;
+		}
+	}
 }
 
 /************************************************************************
@@ -230,11 +363,6 @@ void myDisplay()
 		cameraPosition[0], cameraPosition[1], cameraPosition[2]-100,
 		0, 1, 0);
 
-	//glLoadIdentity();
-
-
-	//glMatrixMode(GL_MODELVIEW);
-
 
 	//initialize quad
 	GLUquadric *quad;
@@ -245,6 +373,12 @@ void myDisplay()
 	// draw the enterprise
 	drawEnterprise();
 
+	//drawVoyager();
+	//drawCamel();
+
+	drawKlingon();
+
+
 	glTranslatef(-cameraPosition[0], -cameraPosition[1], -cameraPosition[2]);
 
 	glPushMatrix();
@@ -254,17 +388,11 @@ void myDisplay()
 	glTranslatef(0.0, 0.0, 0.0);
 	gluSphere(quad, 0.2, 100, 20);
 
-
-
-
 	glPopMatrix();
-
 
 
 	//draw planets and their moons
 	drawPlanetsAndMoons(quad);
-
-
 
 
 	// draw stars if s is pressed
@@ -272,8 +400,6 @@ void myDisplay()
 	{
 		drawStars();
 	}
-
-
 
 
 	//draw the sun's corona if c is pressed
@@ -285,6 +411,91 @@ void myDisplay()
 	// switch to the other buffer
 	glutSwapBuffers();
 }
+
+/************************************************************************
+
+
+Function:		drawKlingon
+
+
+Description:	Draws the enterprise from the kliVertices and kliFaces
+
+
+*************************************************************************/
+void drawKlingon()
+{
+	glPushMatrix();
+	glScalef(0.4, 0.4, 0.4);
+	glRotatef(30.0, 1.0, 0.0, 0.0);
+	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
+	glBegin(GL_TRIANGLES);
+	for (int i = 0; i < 3191; i++)
+	{
+		glColor3f(1.0, 1.0, 1.0);
+		glVertex3f(kliVertices[kliFaces[i][0]][0], kliVertices[kliFaces[i][0]][1], kliVertices[kliFaces[i][0]][2]);
+		glVertex3f(kliVertices[kliFaces[i][1]][0], kliVertices[kliFaces[i][1]][1], kliVertices[kliFaces[i][1]][2]);
+		glVertex3f(kliVertices[kliFaces[i][2]][0], kliVertices[kliFaces[i][2]][1], kliVertices[kliFaces[i][2]][2]);
+	}
+	glEnd();
+	glPopMatrix();
+}
+
+/************************************************************************
+
+
+Function:		drawCamel
+
+
+Description:	Draws the enterprise from the camVertices and camFaces
+
+
+*************************************************************************/
+void drawCamel()
+{
+	glPushMatrix();
+	glScalef(0.4, 0.4, 0.4);
+	glRotatef(30.0, 1.0, 0.0, 0.0);
+	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
+	glBegin(GL_TRIANGLES);
+	for (int i = 0; i < 4884; i++)
+	{
+		glColor3f(1.0, 1.0, 1.0);
+		glVertex3f(camVertices[camFaces[i][0]][0], camVertices[camFaces[i][0]][1], camVertices[camFaces[i][0]][2]);
+		glVertex3f(camVertices[camFaces[i][1]][0], camVertices[camFaces[i][1]][1], camVertices[camFaces[i][1]][2]);
+		glVertex3f(camVertices[camFaces[i][2]][0], camVertices[camFaces[i][2]][1], camVertices[camFaces[i][2]][2]);
+	}
+	glEnd();
+	glPopMatrix();
+}
+
+/************************************************************************
+
+
+Function:		drawVoyager
+
+
+Description:	Draws the enterprise from the voyVertices and voyFaces
+
+
+*************************************************************************/
+void drawVoyager()
+{
+	glPushMatrix();
+	glScalef(0.4, 0.4, 0.4);
+	glRotatef(30.0, 1.0, 0.0, 0.0);
+	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
+	glBegin(GL_TRIANGLES);
+	for (int i = 0; i < 4409; i++)
+	{
+		glColor3f(1.0, 1.0, 1.0);
+		glVertex3f(voyVertices[voyFaces[i][0]][0], voyVertices[voyFaces[i][0]][1], voyVertices[voyFaces[i][0]][2]);
+		glVertex3f(voyVertices[voyFaces[i][1]][0], voyVertices[voyFaces[i][1]][1], voyVertices[voyFaces[i][1]][2]);
+		glVertex3f(voyVertices[voyFaces[i][2]][0], voyVertices[voyFaces[i][2]][1], voyVertices[voyFaces[i][2]][2]);
+	}
+	glEnd();
+	glPopMatrix();
+}
+
 
 void drawOrbits(float xRadius, float yRadius)
 {
@@ -327,6 +538,7 @@ void drawEnterprise()
 	glPopMatrix();
 	//glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
 }
+
 
 
 /************************************************************************
@@ -499,6 +711,7 @@ void myIdle()
 	theta += 0.01; 
 
 	determineMovement();
+
 
 	// force glut to redraw display
 	glutPostRedisplay();
