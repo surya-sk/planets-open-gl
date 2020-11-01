@@ -42,8 +42,6 @@ GLfloat P6[3] = { 0.6, 0.0, 0.4 };
 // angle for rotating planets and moons
 float theta = 0;
 
-//array with coordinates 
-GLfloat arr[21] = { 0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0,-0.1,-0.2,-0.3,-0.4,-0.5,-0.6,-0.7,-0.8,-0.9,-1.0 };
 // points for the stars
 GLfloat starPoints[21];
 
@@ -83,7 +81,7 @@ GLfloat kliVertices[1610][3];
 int kliFaces[3191][3];
 
 // camera position
-GLfloat cameraPosition[] = { 0.0,0.0, 1.0 };
+GLfloat cameraPosition[] = { 0.0,0.0, 1.5 };
 
 // difference added at each frame
 GLfloat interpDiff = 0.0005;
@@ -166,9 +164,9 @@ void initializeGL()
 	//glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 10.0);
 
 	// assign random numbers to star points
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 700; i++)
 	{
-		starPoints[i] = arr[getRandomNumber(0,20)];
+		starPoints[i] = getRandomFloat(-2.0,2.0);
 	}
 	readEnterpriseFile();
 
@@ -371,6 +369,7 @@ void myDisplay()
 	// draw the enterprise
 	drawEnterprise();
 
+
 	//drawVoyager();
 	//drawCamel();
 
@@ -388,9 +387,6 @@ void myDisplay()
 	gluSphere(quad, 0.2, 100, 20);
 
 	glPopMatrix();
-
-
-
 
 	//draw planets and their moons
 	drawPlanetsAndMoons(quad);
@@ -541,6 +537,7 @@ void drawEnterprise()
 	}
 	glEnd();
 	glPopMatrix();
+
 	//glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
 }
 
@@ -596,7 +593,7 @@ void drawStars()
 	glPointSize(1.0);
 	// draw stars
 	glBegin(GL_POINTS);
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 700; i++)
 	{
 		glColor3f(starColors[getRandomNumber(0, 1)], starColors[getRandomNumber(0, 1)], starColors[getRandomNumber(0, 1)]);
 		glVertex3f(starPoints[i], starPoints[i++], 0.0);
@@ -633,9 +630,13 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	drawOrbits(0.05, 0.08);
 	glPopMatrix();
 
+
+
 	//glPushMatrix();
 	//drawOrbits(P1[0], P1[2]);
 	//glPopMatrix();
+
+
 
 	// moon
 	glPushMatrix();
