@@ -363,12 +363,10 @@ void myDisplay()
 		cameraPosition[0], cameraPosition[1], cameraPosition[2]-100,
 		0, 1, 0);
 
-
 	//initialize quad
 	GLUquadric *quad;
 	quad = gluNewQuadric();
 
-	
 
 	// draw the enterprise
 	drawEnterprise();
@@ -376,10 +374,11 @@ void myDisplay()
 	//drawVoyager();
 	//drawCamel();
 
-	drawKlingon();
+	//drawKlingon();
 
 
 	glTranslatef(-cameraPosition[0], -cameraPosition[1], -cameraPosition[2]);
+
 
 	glPushMatrix();
 
@@ -389,6 +388,8 @@ void myDisplay()
 	gluSphere(quad, 0.2, 100, 20);
 
 	glPopMatrix();
+
+
 
 
 	//draw planets and their moons
@@ -418,7 +419,7 @@ void myDisplay()
 Function:		drawKlingon
 
 
-Description:	Draws the enterprise from the kliVertices and kliFaces
+Description:	Draws the klingon from the kliVertices and kliFaces
 
 
 *************************************************************************/
@@ -446,7 +447,7 @@ void drawKlingon()
 Function:		drawCamel
 
 
-Description:	Draws the enterprise from the camVertices and camFaces
+Description:	Draws the camel from the camVertices and camFaces
 
 
 *************************************************************************/
@@ -474,7 +475,7 @@ void drawCamel()
 Function:		drawVoyager
 
 
-Description:	Draws the enterprise from the voyVertices and voyFaces
+Description:	Draws the voyager from the voyVertices and voyFaces
 
 
 *************************************************************************/
@@ -500,13 +501,13 @@ void drawVoyager()
 void drawOrbits(float xRadius, float yRadius)
 {
 	glBegin(GL_LINES);
-	GLfloat x, y,z,  angle;
-	for (angle = 0.0; angle <= (2 * PI); angle += 0.01) 
+	for (float i = 0; i < 2 * PI; i += 0.01)
 	{
-		x = xRadius * cos(angle);
-		z = yRadius * sin(angle); 
-		glVertex3f(x, 0.0, z); 
-	}  
+		float x = xRadius * cos(i) + 0.0;
+		float y = 0.0;
+		float z = yRadius * sin(i) + 0.0;
+		glVertex3f(x, y, z);
+	}
 	glEnd();
 }
 
@@ -523,15 +524,19 @@ Description:	Draws the enterprise from the entVertices and entFaces
 void drawEnterprise()
 {
 	glPushMatrix();
-	glScalef(0.4, 0.4, 0.4);
+	//initialize quad
+
+	glScalef(0.15, 0.15, 0.15);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
+	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.8, cameraPosition[2]+0.2);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 1989; i++)
 	{
-		glColor3f(1.0, 1.0, 1.0);
+		glColor3f(i-1989/1989, i-1989 /1989, i- 1989 /1989);
 		glVertex3f(entVertices[entFaces[i][0]][0], entVertices[entFaces[i][0]][1], entVertices[entFaces[i][0]][2]);
+		glColor3f(i - 1989 / 1989, i - 1989 / 1989, i - 1989 / 1989);
 		glVertex3f(entVertices[entFaces[i][1]][0], entVertices[entFaces[i][1]][1], entVertices[entFaces[i][1]][2]);
+		glColor3f(i - 1989 / 1989, i - 1989 / 1989, i - 1989 / 1989);
 		glVertex3f(entVertices[entFaces[i][2]][0], entVertices[entFaces[i][2]][1], entVertices[entFaces[i][2]][2]);
 	}
 	glEnd();
@@ -611,6 +616,7 @@ Description:	Draws 6 planets and 4 moons
 *************************************************************************/
 void drawPlanetsAndMoons(GLUquadric * quad)
 {
+
 	// planet
 	glPushMatrix();
 	glColor3f(1.0, 0.0, 0.0);
@@ -618,8 +624,18 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	glTranslatef(P1[0], P1[1], P1[2]);
 	gluSphere(quad, 0.05, 100, 20);
 	glPopMatrix();
+	
+	// orbit around the planet
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	glTranslatef(P1[0], P1[1], P1[2]);
+	drawOrbits(0.05, 0.08);
+	glPopMatrix();
 
-	//drawOrbits(0.5,0.5);
+	//glPushMatrix();
+	//drawOrbits(P1[0], P1[2]);
+	//glPopMatrix();
 
 	// moon
 	glPushMatrix();
