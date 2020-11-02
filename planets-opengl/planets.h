@@ -18,6 +18,8 @@ void drawCamel();
 
 void drawKlingon();
 
+void drawOrbitRing();
+
 void readVoyagerFile();
 
 void readCamelFile();

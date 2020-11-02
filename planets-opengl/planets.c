@@ -406,66 +406,12 @@ void myDisplay()
 	glPopMatrix();
 
 	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_LINES);
-	for (float i = 0; i < 2 * PI; i += 0.01)
-	{
-		float x = 0.8 * cos(i) + 0.0;
-		float y = 0.0;
-		float z = 0.8 * sin(i) + 0.0;
-		glVertex3f(x, y, z);
-	}
-	glEnd();
-
-	glBegin(GL_LINES);
-	for (float i = 0; i < 2 * PI; i += 0.01)
-	{
-		float x = 0.6 * cos(i) + 0.0;
-		float y = 0.0;
-		float z = 0.6 * sin(i) + 0.0;
-		glVertex3f(x, y, z);
-	}
-	glEnd();
-
-	glBegin(GL_LINES);
-	for (float i = 0; i < 2 * PI; i += 0.01)
-	{
-		float x = 1.0 * cos(i) + 0.0;
-		float y = 0.0;
-		float z = 1.0 * sin(i) + 0.0;
-		glVertex3f(x, y, z);
-	}
-	glEnd();
-
-	glBegin(GL_LINES);
-	for (float i = 0; i < 2 * PI; i += 0.01)
-	{
-		float x = 0.5 * cos(i) + 0.0;
-		float y = 0.0;
-		float z = 0.5 * sin(i) + 0.0;
-		glVertex3f(x, y, z);
-	}
-	glEnd();
-
-	glBegin(GL_LINES);
-	for (float i = 0; i < 2 * PI; i += 0.01)
-	{
-		float x = 1.5 * cos(i) + 0.0;
-		float y = 0.0;
-		float z = 1.5 * sin(i) + 0.0;
-		glVertex3f(x, y, z);
-	}
-	glEnd();
-
-	glBegin(GL_LINES);
-	for (float i = 0; i < 2 * PI; i += 0.01)
-	{
-		float x = 1.2 * cos(i) + 0.0;
-		float y = 0.0;
-		float z = 1.2 * sin(i) + 0.0;
-		glVertex3f(x, y, z);
-	}
-	glEnd();
+	drawOrbitRing(0.8);
+	drawOrbitRing(0.6);
+	drawOrbitRing(1.0);
+	drawOrbitRing(0.5);
+	drawOrbitRing(1.5);
+	drawOrbitRing(1.2);
 	glPopMatrix();
 
 	//draw planets and their moons
@@ -487,6 +433,70 @@ void myDisplay()
 
 	// switch to the other buffer
 	glutSwapBuffers();
+}
+
+void drawOrbitRing(double rad)
+{
+	glColor3f(1.0, 1.0, 1.0);
+	glBegin(GL_LINES);
+	for (float i = 0; i < 2 * PI; i += 0.001)
+	{
+		float x = rad * cos(i) + 0.0;
+		float y = 0.0;
+		float z = rad * sin(i) + 0.0;
+		glVertex3f(x, y, z);
+	}
+	glEnd();
+
+	//glBegin(GL_LINES);
+	//for (float i = 0; i < 2 * PI; i += 0.01)
+	//{
+	//	float x = 0.6 * cos(i) + 0.0;
+	//	float y = 0.0;
+	//	float z = 0.6 * sin(i) + 0.0;
+	//	glVertex3f(x, y, z);
+	//}
+	//glEnd();
+
+	//glBegin(GL_LINES);
+	//for (float i = 0; i < 2 * PI; i += 0.01)
+	//{
+	//	float x = 1.0 * cos(i) + 0.0;
+	//	float y = 0.0;
+	//	float z = 1.0 * sin(i) + 0.0;
+	//	glVertex3f(x, y, z);
+	//}
+	//glEnd();
+
+	//glBegin(GL_LINES);
+	//for (float i = 0; i < 2 * PI; i += 0.01)
+	//{
+	//	float x = 0.5 * cos(i) + 0.0;
+	//	float y = 0.0;
+	//	float z = 0.5 * sin(i) + 0.0;
+	//	glVertex3f(x, y, z);
+	//}
+	//glEnd();
+
+	//glBegin(GL_LINES);
+	//for (float i = 0; i < 2 * PI; i += 0.01)
+	//{
+	//	float x = 1.5 * cos(i) + 0.0;
+	//	float y = 0.0;
+	//	float z = 1.5 * sin(i) + 0.0;
+	//	glVertex3f(x, y, z);
+	//}
+	//glEnd();
+
+	//glBegin(GL_LINES);
+	//for (float i = 0; i < 2 * PI; i += 0.01)
+	//{
+	//	float x = 1.2 * cos(i) + 0.0;
+	//	float y = 0.0;
+	//	float z = 1.2 * sin(i) + 0.0;
+	//	glVertex3f(x, y, z);
+	//}
+	//glEnd();
 }
 
 /************************************************************************
@@ -641,12 +651,13 @@ Description:	Draws the sun's corona
 *************************************************************************/
 void drawSunCorona()
 {
+
+	glPushMatrix();
 	//enable blending for transparency
 	glEnable(GL_BLEND);
 
 	//set the blending mode
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glPushMatrix();
 	glTranslatef(0.0, 0.0, 0.0);
 	for (int i = 0; i < NUM_LINES; i++)
 	{
@@ -807,8 +818,8 @@ void myIdle()
 	//increase angle
 	theta += 0.01; 
 
+	// determines camera movement based on input
 	determineMovement();
-
 
 	// force glut to redraw display
 	glutPostRedisplay();
