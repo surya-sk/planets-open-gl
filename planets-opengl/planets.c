@@ -24,8 +24,12 @@ GLint windowWidth = 600;
 
 // determines whether stars should be shown
 GLint showStars = 0;
+
 // determines whether the sun's corona should be shown
 GLint showCorona = 0;
+
+// determines whether orbit trials and rings should be shown
+GLint showRings = 0;
 
 // pi
 const float PI = 3.141592653;
@@ -392,27 +396,27 @@ void myDisplay()
 	}
 	
 
-
 	glTranslatef(-cameraPosition[0], -cameraPosition[1], -cameraPosition[2]);
 
-
 	glPushMatrix();
-
 	 //draw the sun
 	glColor3f(1.0, 1.0, -1.0);
 	glTranslatef(0.0, 0.0, 0.0);
 	gluSphere(quad, 0.2, 100, 20);
-
 	glPopMatrix();
 
-	glPushMatrix();
-	drawOrbitRing(0.8);
-	drawOrbitRing(0.6);
-	drawOrbitRing(1.0);
-	drawOrbitRing(0.5);
-	drawOrbitRing(1.5);
-	drawOrbitRing(1.2);
-	glPopMatrix();
+	// draw orbit trials if r is pressed
+	if (showRings)
+	{
+		glPushMatrix();
+		drawOrbitRing(0.8);
+		drawOrbitRing(0.6);
+		drawOrbitRing(1.0);
+		drawOrbitRing(0.5);
+		drawOrbitRing(1.5);
+		drawOrbitRing(1.2);
+		glPopMatrix();
+	}
 
 	//draw planets and their moons
 	drawPlanetsAndMoons(quad);
@@ -534,7 +538,7 @@ void drawVoyager()
 }
 
 
-void drawOrbits(float xRadius, float yRadius)
+void drawOrbit(float xRadius, float yRadius)
 {
 	glBegin(GL_LINES);
 	for (float i = 0; i < 2 * PI; i += 0.01)
@@ -669,13 +673,16 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	gluSphere(quad, 0.05, 100, 20);
 	glPopMatrix();
 	
-	// orbit around the planet
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	glTranslatef(P1[0], P1[1], P1[2]);
-	drawOrbits(0.05, 0.08);
-	glPopMatrix();
+	if (showRings)
+	{
+		// orbit around the planet
+		glPushMatrix();
+		glColor3f(1.0, 1.0, 1.0);
+		glRotatef(theta * 10, 0.0, 1.0, 0.0);
+		glTranslatef(P1[0], P1[1], P1[2]);
+		drawOrbit(0.05, 0.08);
+		glPopMatrix();
+	}
 
 
 
@@ -849,6 +856,18 @@ void myKey(unsigned char key, int x, int y)
 		else
 		{
 			showCorona = 1;
+		}
+		break;
+		
+	//show or hide rings if 'r' is pressed
+	case('r'):
+		if (showRings)
+		{
+			showRings = 0;
+		}
+		else
+		{
+			showRings = 1;
 		}
 		break;
 
