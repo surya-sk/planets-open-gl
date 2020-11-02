@@ -451,9 +451,9 @@ Description:	Draws the klingon from the kliVertices and kliFaces
 void drawKlingon()
 {
 	glPushMatrix();
-	glScalef(0.4, 0.4, 0.4);
+	glScalef(0.1, 0.1, 0.1);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
+	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.7, cameraPosition[2] + 2.0);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 3191; i++)
 	{
@@ -509,7 +509,7 @@ void drawVoyager()
 	glPushMatrix();
 	glScalef(0.4, 0.4, 0.4);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
+	glTranslatef(cameraPosition[0] + 0.2 , cameraPosition[1] + 0.4 , cameraPosition[2]);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 4409; i++)
 	{
@@ -549,7 +549,6 @@ Description:	Draws the enterprise from the entVertices and entFaces
 void drawEnterprise()
 {
 	glPushMatrix();
-	//initialize quad
 	entXPos = cameraPosition[0] - 0.4;
 	entYPos = cameraPosition[1] - 0.8;
 	entZPos = cameraPosition[2] + 0.2;
