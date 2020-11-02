@@ -626,6 +626,7 @@ void drawSunCorona()
 
 		glEnd();
 	}
+	glDisable(GL_BLEND);
 	glPopMatrix();
 }
 
