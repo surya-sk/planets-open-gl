@@ -32,11 +32,11 @@ const float PI = 3.141592653;
 
 // coordinates for the 6 planets
 GLfloat P1[3] = { -0.6, 0.0, 0.5 };
-GLfloat P2[3] = { -0.6, 0.0, 0.3 };
+GLfloat P2[3] = { -0.6, 0.0, 0.0 };
 GLfloat P3[3] = { 0.4, 0.0, 0.9 };
 GLfloat P4[3] = { 0.43, 0.0, 0.2 };
-GLfloat P5[3] = { 0.5, 0.0, 0.7 };
-GLfloat P6[3] = { 0.6, 0.0, 0.4 };
+GLfloat P5[3] = { 0.5, 0.0, 1.4 };
+GLfloat P6[3] = { 0.6, 0.0, 1.0 };
 
 
 // angle for rotating planets and moons
@@ -374,9 +374,9 @@ void myDisplay()
 	if (showEnt)
 	{
 		// draw the enterprise and camel
-		drawEnterprise();
+		//drawEnterprise();
 
-		drawCamel();
+		//drawCamel();
 	}
 
 	if (showVoyager)
@@ -406,12 +406,63 @@ void myDisplay()
 	glPopMatrix();
 
 	glPushMatrix();
-	glBegin(GL_LINE_LOOP);
+	glColor3f(1.0, 1.0, 1.0);
+	glBegin(GL_LINES);
+	for (float i = 0; i < 2 * PI; i += 0.01)
+	{
+		float x = 0.8 * cos(i) + 0.0;
+		float y = 0.0;
+		float z = 0.8 * sin(i) + 0.0;
+		glVertex3f(x, y, z);
+	}
+	glEnd();
+
+	glBegin(GL_LINES);
+	for (float i = 0; i < 2 * PI; i += 0.01)
+	{
+		float x = 0.6 * cos(i) + 0.0;
+		float y = 0.0;
+		float z = 0.6 * sin(i) + 0.0;
+		glVertex3f(x, y, z);
+	}
+	glEnd();
+
+	glBegin(GL_LINES);
+	for (float i = 0; i < 2 * PI; i += 0.01)
+	{
+		float x = 1.0 * cos(i) + 0.0;
+		float y = 0.0;
+		float z = 1.0 * sin(i) + 0.0;
+		glVertex3f(x, y, z);
+	}
+	glEnd();
+
+	glBegin(GL_LINES);
 	for (float i = 0; i < 2 * PI; i += 0.01)
 	{
 		float x = 0.5 * cos(i) + 0.0;
-		float y = P1[1];
-		float z = 0.5 * sin(i) + P1[2];
+		float y = 0.0;
+		float z = 0.5 * sin(i) + 0.0;
+		glVertex3f(x, y, z);
+	}
+	glEnd();
+
+	glBegin(GL_LINES);
+	for (float i = 0; i < 2 * PI; i += 0.01)
+	{
+		float x = 1.5 * cos(i) + 0.0;
+		float y = 0.0;
+		float z = 1.5 * sin(i) + 0.0;
+		glVertex3f(x, y, z);
+	}
+	glEnd();
+
+	glBegin(GL_LINES);
+	for (float i = 0; i < 2 * PI; i += 0.01)
+	{
+		float x = 1.2 * cos(i) + 0.0;
+		float y = 0.0;
+		float z = 1.2 * sin(i) + 0.0;
 		glVertex3f(x, y, z);
 	}
 	glEnd();
@@ -657,87 +708,87 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	gluSphere(quad, 0.05, 100, 20);
 	glPopMatrix();
 	
-	//// orbit around the planet
-	//glPushMatrix();
-	//glColor3f(1.0, 1.0, 1.0);
-	//glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	//glTranslatef(P1[0], P1[1], P1[2]);
-	//drawOrbits(0.05, 0.08);
-	//glPopMatrix();
+	// orbit around the planet
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	glTranslatef(P1[0], P1[1], P1[2]);
+	drawOrbits(0.05, 0.08);
+	glPopMatrix();
 
 
 
-	//// moon
-	//glPushMatrix();
-	//glColor3f(1.0, 1.0, 1.0);
-	//glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	//glTranslatef(P1[0] + 0.06, P1[1] - 0.02, P1[2]);
-	//gluSphere(quad, 0.01, 100, 20);
-	//glPopMatrix();
+	// moon
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	glTranslatef(P1[0] + 0.06, P1[1] - 0.02, P1[2]);
+	gluSphere(quad, 0.01, 100, 20);
+	glPopMatrix();
 
-	//// planet
-	//glPushMatrix();
-	//glColor3f(1.0, 0.5, 0.0);
-	//glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	//glTranslatef(P2[0], P2[1], P2[2]);
-	//gluSphere(quad, 0.04, 100, 20);
-	//glPopMatrix();
+	// planet
+	glPushMatrix();
+	glColor3f(1.0, 0.5, 0.0);
+	glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	glTranslatef(P2[0], P2[1], P2[2]);
+	gluSphere(quad, 0.04, 100, 20);
+	glPopMatrix();
 
-	//// planet
-	//glPushMatrix();
-	//glColor3f(0.5, 1.0, 0.5);
-	//glRotatef(theta * 35, 0.0, 1.0, 0.0);
-	//glTranslatef(P3[0], P3[1], P3[2]);
-	//gluSphere(quad, 0.03, 100, 20);
-	//glPopMatrix();
+	// planet
+	glPushMatrix();
+	glColor3f(0.5, 1.0, 0.5);
+	glRotatef(theta * 35, 0.0, 1.0, 0.0);
+	glTranslatef(P3[0], P3[1], P3[2]);
+	gluSphere(quad, 0.03, 100, 20);
+	glPopMatrix();
 
-	//// moon
-	//glPushMatrix();
-	//glColor3f(1.0, 1.0, 1.0);
-	//glRotatef(theta * 35, 0.0, 1.0, 0.0);
-	//glTranslatef(P3[0] + 0.06, P3[1] + 0.04, P3[2]);
-	//gluSphere(quad, 0.01, 100, 20);
-	//glPopMatrix();
+	// moon
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glRotatef(theta * 35, 0.0, 1.0, 0.0);
+	glTranslatef(P3[0] + 0.06, P3[1] + 0.04, P3[2]);
+	gluSphere(quad, 0.01, 100, 20);
+	glPopMatrix();
 
-	//// planet
-	//glPushMatrix();
-	//glColor3f(0.0, 1.0, 0.0);
-	//glRotatef(theta * 20, 0.0, 1.0, 0.0);
-	//glTranslatef(P4[0], P4[1], P4[2]);
-	//gluSphere(quad, 0.05, 100, 20);
-	//glPopMatrix();
+	// planet
+	glPushMatrix();
+	glColor3f(0.0, 1.0, 0.0);
+	glRotatef(theta * 20, 0.0, 1.0, 0.0);
+	glTranslatef(P4[0], P4[1], P4[2]);
+	gluSphere(quad, 0.05, 100, 20);
+	glPopMatrix();
 
-	//// moon
-	//glPushMatrix();
-	//glColor3f(1.0, 1.0, 1.0);
-	//glRotatef(theta * 20, 0.0, 1.0, 0.0);
-	//glTranslatef(P4[0] + 0.03, P4[1] - 0.02, P4[2]);
-	//gluSphere(quad, 0.01, 100, 20);
-	//glPopMatrix();
+	// moon
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glRotatef(theta * 20, 0.0, 1.0, 0.0);
+	glTranslatef(P4[0] + 0.03, P4[1] - 0.02, P4[2]);
+	gluSphere(quad, 0.01, 100, 20);
+	glPopMatrix();
 
-	//// planet
-	//glPushMatrix();
-	//glColor3f(0.0, 0.0, 1.0);
-	//glRotatef(theta * 40, 0.0, 1.0, 0.0);
-	//glTranslatef(P5[0], P5[1], P5[2]);
-	//gluSphere(quad, 0.065, 100, 20);
-	//glPopMatrix();
+	// planet
+	glPushMatrix();
+	glColor3f(0.0, 0.0, 1.0);
+	glRotatef(theta * 40, 0.0, 1.0, 0.0);
+	glTranslatef(P5[0], P5[1], P5[2]);
+	gluSphere(quad, 0.065, 100, 20);
+	glPopMatrix();
 
-	//// moon
-	//glPushMatrix();
-	//glColor3f(1.0, 1.0, 1.0);
-	//glRotatef(theta * 40, 0.0, 1.0, 0.0);
-	//glTranslatef(P5[0] + 0.04, P5[1] - 0.06, P5[2]);
-	//gluSphere(quad, 0.01, 100, 20);
-	//glPopMatrix();
+	// moon
+	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
+	glRotatef(theta * 40, 0.0, 1.0, 0.0);
+	glTranslatef(P5[0] + 0.04, P5[1] - 0.06, P5[2]);
+	gluSphere(quad, 0.01, 100, 20);
+	glPopMatrix();
 
-	//// planet
-	//glPushMatrix();
-	//glColor3f(1.0, 0.0, 0.5);
-	//glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	//glTranslatef(P6[0], P6[1], P6[2]);
-	//gluSphere(quad, 0.06, 100, 20);
-	//glPopMatrix();
+	// planet
+	glPushMatrix();
+	glColor3f(1.0, 0.0, 0.5);
+	glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	glTranslatef(P6[0], P6[1], P6[2]);
+	gluSphere(quad, 0.06, 100, 20);
+	glPopMatrix();
 }
 
 
