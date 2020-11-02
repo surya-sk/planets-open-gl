@@ -81,7 +81,7 @@ GLfloat kliVertices[1610][3];
 int kliFaces[3191][3];
 
 // camera position
-GLfloat cameraPosition[] = { 0.0,0.0, 1.5 };
+GLfloat cameraPosition[] = { 0.0,0.0, 2.5 };
 
 // difference added at each frame
 GLfloat interpDiff = 0.0005;
@@ -172,7 +172,7 @@ void initializeGL()
 	// assign random numbers to star points
 	for (int i = 0; i < 700; i++)
 	{
-		starPoints[i] = getRandomFloat(-2.0,2.0);
+		starPoints[i] = getRandomFloat(-4.0,4.0);
 	}
 	readEnterpriseFile();
 
