@@ -89,6 +89,12 @@ GLfloat interpDiff = 0.0005;
 // determine direction to move the camera in
 GLint moveUp, moveDown, moveRight, moveLeft, moveForward, moveBackward = 0;
 
+// determine which ship to show
+GLint showEnt, showVoyager, showKlingon;
+
+// positions for enterprise and camel
+GLfloat entXPos, entYPos, entZPos, camXPos, camYPos, camZPos;
+
 /************************************************************************
 
 
@@ -160,8 +166,8 @@ void initializeGL()
 	// enable depth testing
 	glEnable(GL_DEPTH_TEST);
 
-	
-	//glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 10.0);
+	// set enterprise to show by default
+	showEnt = 1;
 
 	// assign random numbers to star points
 	for (int i = 0; i < 700; i++)
@@ -365,15 +371,26 @@ void myDisplay()
 	GLUquadric *quad;
 	quad = gluNewQuadric();
 
+	if (showEnt)
+	{
+		// draw the enterprise and camel
+		drawEnterprise();
 
-	// draw the enterprise
-	drawEnterprise();
+		drawCamel();
+	}
 
+	if (showVoyager)
+	{
+		// draw the voyager
+		drawVoyager();
+	}
 
-	//drawVoyager();
-	//drawCamel();
-
-	//drawKlingon();
+	if (showKlingon)
+	{
+		// show the klingon
+		drawKlingon();
+	}
+	
 
 
 	glTranslatef(-cameraPosition[0], -cameraPosition[1], -cameraPosition[2]);
@@ -386,6 +403,18 @@ void myDisplay()
 	glTranslatef(0.0, 0.0, 0.0);
 	gluSphere(quad, 0.2, 100, 20);
 
+	glPopMatrix();
+
+	glPushMatrix();
+	glBegin(GL_LINE_LOOP);
+	for (float i = 0; i < 2 * PI; i += 0.01)
+	{
+		float x = 0.5 * cos(i) + 0.0;
+		float y = P1[1];
+		float z = 0.5 * sin(i) + P1[2];
+		glVertex3f(x, y, z);
+	}
+	glEnd();
 	glPopMatrix();
 
 	//draw planets and their moons
@@ -450,9 +479,9 @@ Description:	Draws the camel from the camVertices and camFaces
 void drawCamel()
 {
 	glPushMatrix();
-	glScalef(0.4, 0.4, 0.4);
+	glScalef(0.1, 0.1, 0.1);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
+	glTranslatef(camXPos, camYPos, camZPos);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 4884; i++)
 	{
@@ -521,23 +550,30 @@ void drawEnterprise()
 {
 	glPushMatrix();
 	//initialize quad
-
+	entXPos = cameraPosition[0] - 0.4;
+	entYPos = cameraPosition[1] - 0.8;
+	entZPos = cameraPosition[2] + 0.2;
 	glScalef(0.15, 0.15, 0.15);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.8, cameraPosition[2]+0.2);
+	glTranslatef(entXPos, entYPos, entZPos);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 1989; i++)
 	{
-		glColor3f(i-1989/1989, i-1989 /1989, i- 1989 /1989);
+		glColor3f(1989/1989, 1989 /1989, 1989 /1989);
 		glVertex3f(entVertices[entFaces[i][0]][0], entVertices[entFaces[i][0]][1], entVertices[entFaces[i][0]][2]);
-		glColor3f(i - 1989 / 1989, i - 1989 / 1989, i - 1989 / 1989);
+		glColor3f(1989 / 1989, 1989 / 1989, 1989 / 1989);
 		glVertex3f(entVertices[entFaces[i][1]][0], entVertices[entFaces[i][1]][1], entVertices[entFaces[i][1]][2]);
-		glColor3f(i - 1989 / 1989, i - 1989 / 1989, i - 1989 / 1989);
+		glColor3f(1989 / 1989, 1989 / 1989, 1989 / 1989);
 		glVertex3f(entVertices[entFaces[i][2]][0], entVertices[entFaces[i][2]][1], entVertices[entFaces[i][2]][2]);
 	}
 	glEnd();
 	glPopMatrix();
-
+	camXPos = entXPos;
+	camYPos = entYPos;
+	camZPos = entZPos;
+	glPushMatrix();
+	drawCamel();
+	glPopMatrix();
 	//glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
 }
 
@@ -622,93 +658,87 @@ void drawPlanetsAndMoons(GLUquadric * quad)
 	gluSphere(quad, 0.05, 100, 20);
 	glPopMatrix();
 	
-	// orbit around the planet
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	glTranslatef(P1[0], P1[1], P1[2]);
-	drawOrbits(0.05, 0.08);
-	glPopMatrix();
-
-
-
+	//// orbit around the planet
 	//glPushMatrix();
-	//drawOrbits(P1[0], P1[2]);
+	//glColor3f(1.0, 1.0, 1.0);
+	//glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	//glTranslatef(P1[0], P1[1], P1[2]);
+	//drawOrbits(0.05, 0.08);
 	//glPopMatrix();
 
 
 
-	// moon
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	glTranslatef(P1[0] + 0.06, P1[1] - 0.02, P1[2]);
-	gluSphere(quad, 0.01, 100, 20);
-	glPopMatrix();
+	//// moon
+	//glPushMatrix();
+	//glColor3f(1.0, 1.0, 1.0);
+	//glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	//glTranslatef(P1[0] + 0.06, P1[1] - 0.02, P1[2]);
+	//gluSphere(quad, 0.01, 100, 20);
+	//glPopMatrix();
 
-	// planet
-	glPushMatrix();
-	glColor3f(1.0, 0.5, 0.0);
-	glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	glTranslatef(P2[0], P2[1], P2[2]);
-	gluSphere(quad, 0.04, 100, 20);
-	glPopMatrix();
+	//// planet
+	//glPushMatrix();
+	//glColor3f(1.0, 0.5, 0.0);
+	//glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	//glTranslatef(P2[0], P2[1], P2[2]);
+	//gluSphere(quad, 0.04, 100, 20);
+	//glPopMatrix();
 
-	// planet
-	glPushMatrix();
-	glColor3f(0.5, 1.0, 0.5);
-	glRotatef(theta * 35, 0.0, 1.0, 0.0);
-	glTranslatef(P3[0], P3[1], P3[2]);
-	gluSphere(quad, 0.03, 100, 20);
-	glPopMatrix();
+	//// planet
+	//glPushMatrix();
+	//glColor3f(0.5, 1.0, 0.5);
+	//glRotatef(theta * 35, 0.0, 1.0, 0.0);
+	//glTranslatef(P3[0], P3[1], P3[2]);
+	//gluSphere(quad, 0.03, 100, 20);
+	//glPopMatrix();
 
-	// moon
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glRotatef(theta * 35, 0.0, 1.0, 0.0);
-	glTranslatef(P3[0] + 0.06, P3[1] + 0.04, P3[2]);
-	gluSphere(quad, 0.01, 100, 20);
-	glPopMatrix();
+	//// moon
+	//glPushMatrix();
+	//glColor3f(1.0, 1.0, 1.0);
+	//glRotatef(theta * 35, 0.0, 1.0, 0.0);
+	//glTranslatef(P3[0] + 0.06, P3[1] + 0.04, P3[2]);
+	//gluSphere(quad, 0.01, 100, 20);
+	//glPopMatrix();
 
-	// planet
-	glPushMatrix();
-	glColor3f(0.0, 1.0, 0.0);
-	glRotatef(theta * 20, 0.0, 1.0, 0.0);
-	glTranslatef(P4[0], P4[1], P4[2]);
-	gluSphere(quad, 0.05, 100, 20);
-	glPopMatrix();
+	//// planet
+	//glPushMatrix();
+	//glColor3f(0.0, 1.0, 0.0);
+	//glRotatef(theta * 20, 0.0, 1.0, 0.0);
+	//glTranslatef(P4[0], P4[1], P4[2]);
+	//gluSphere(quad, 0.05, 100, 20);
+	//glPopMatrix();
 
-	// moon
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glRotatef(theta * 20, 0.0, 1.0, 0.0);
-	glTranslatef(P4[0] + 0.03, P4[1] - 0.02, P4[2]);
-	gluSphere(quad, 0.01, 100, 20);
-	glPopMatrix();
+	//// moon
+	//glPushMatrix();
+	//glColor3f(1.0, 1.0, 1.0);
+	//glRotatef(theta * 20, 0.0, 1.0, 0.0);
+	//glTranslatef(P4[0] + 0.03, P4[1] - 0.02, P4[2]);
+	//gluSphere(quad, 0.01, 100, 20);
+	//glPopMatrix();
 
-	// planet
-	glPushMatrix();
-	glColor3f(0.0, 0.0, 1.0);
-	glRotatef(theta * 40, 0.0, 1.0, 0.0);
-	glTranslatef(P5[0], P5[1], P5[2]);
-	gluSphere(quad, 0.065, 100, 20);
-	glPopMatrix();
+	//// planet
+	//glPushMatrix();
+	//glColor3f(0.0, 0.0, 1.0);
+	//glRotatef(theta * 40, 0.0, 1.0, 0.0);
+	//glTranslatef(P5[0], P5[1], P5[2]);
+	//gluSphere(quad, 0.065, 100, 20);
+	//glPopMatrix();
 
-	// moon
-	glPushMatrix();
-	glColor3f(1.0, 1.0, 1.0);
-	glRotatef(theta * 40, 0.0, 1.0, 0.0);
-	glTranslatef(P5[0] + 0.04, P5[1] - 0.06, P5[2]);
-	gluSphere(quad, 0.01, 100, 20);
-	glPopMatrix();
+	//// moon
+	//glPushMatrix();
+	//glColor3f(1.0, 1.0, 1.0);
+	//glRotatef(theta * 40, 0.0, 1.0, 0.0);
+	//glTranslatef(P5[0] + 0.04, P5[1] - 0.06, P5[2]);
+	//gluSphere(quad, 0.01, 100, 20);
+	//glPopMatrix();
 
-	// planet
-	glPushMatrix();
-	glColor3f(1.0, 0.0, 0.5);
-	glRotatef(theta * 10, 0.0, 1.0, 0.0);
-	glTranslatef(P6[0], P6[1], P6[2]);
-	gluSphere(quad, 0.06, 100, 20);
-	glPopMatrix();
+	//// planet
+	//glPushMatrix();
+	//glColor3f(1.0, 0.0, 0.5);
+	//glRotatef(theta * 10, 0.0, 1.0, 0.0);
+	//glTranslatef(P6[0], P6[1], P6[2]);
+	//gluSphere(quad, 0.06, 100, 20);
+	//glPopMatrix();
 }
 
 
@@ -808,6 +838,33 @@ void myKey(unsigned char key, int x, int y)
 		else
 		{
 			showCorona = 1;
+		}
+		break;
+
+	// show the selected vehicle
+	case('1'):
+		if (showEnt)
+		{
+			showEnt;
+		}
+		else
+		{
+			showEnt = 1;
+			showVoyager = showKlingon = 0;
+		}
+		break;
+	case('2'):
+		if (showVoyager == 0)
+		{
+			showVoyager = 1;
+			showEnt = showKlingon = 0;
+		}
+		break;
+	case('3'):
+		if (showKlingon == 0)
+		{
+			showKlingon = 1;
+			showEnt = showVoyager = 0;
 		}
 		break;
 	}
