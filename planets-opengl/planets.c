@@ -447,56 +447,6 @@ void drawOrbitRing(double rad)
 		glVertex3f(x, y, z);
 	}
 	glEnd();
-
-	//glBegin(GL_LINES);
-	//for (float i = 0; i < 2 * PI; i += 0.01)
-	//{
-	//	float x = 0.6 * cos(i) + 0.0;
-	//	float y = 0.0;
-	//	float z = 0.6 * sin(i) + 0.0;
-	//	glVertex3f(x, y, z);
-	//}
-	//glEnd();
-
-	//glBegin(GL_LINES);
-	//for (float i = 0; i < 2 * PI; i += 0.01)
-	//{
-	//	float x = 1.0 * cos(i) + 0.0;
-	//	float y = 0.0;
-	//	float z = 1.0 * sin(i) + 0.0;
-	//	glVertex3f(x, y, z);
-	//}
-	//glEnd();
-
-	//glBegin(GL_LINES);
-	//for (float i = 0; i < 2 * PI; i += 0.01)
-	//{
-	//	float x = 0.5 * cos(i) + 0.0;
-	//	float y = 0.0;
-	//	float z = 0.5 * sin(i) + 0.0;
-	//	glVertex3f(x, y, z);
-	//}
-	//glEnd();
-
-	//glBegin(GL_LINES);
-	//for (float i = 0; i < 2 * PI; i += 0.01)
-	//{
-	//	float x = 1.5 * cos(i) + 0.0;
-	//	float y = 0.0;
-	//	float z = 1.5 * sin(i) + 0.0;
-	//	glVertex3f(x, y, z);
-	//}
-	//glEnd();
-
-	//glBegin(GL_LINES);
-	//for (float i = 0; i < 2 * PI; i += 0.01)
-	//{
-	//	float x = 1.2 * cos(i) + 0.0;
-	//	float y = 0.0;
-	//	float z = 1.2 * sin(i) + 0.0;
-	//	glVertex3f(x, y, z);
-	//}
-	//glEnd();
 }
 
 /************************************************************************
