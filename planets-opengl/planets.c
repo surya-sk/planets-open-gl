@@ -463,10 +463,21 @@ void myDisplay()
 	glutSwapBuffers();
 }
 
+/************************************************************************
+
+
+Function:		drawScorpicus
+
+
+Description:	Draws the scorpicus consellation
+
+
+*************************************************************************/
 void drawScorpicus()
 {
 	glPushMatrix();
 	glTranslatef(scorpicusPos[0], scorpicusPos[1], scorpicusPos[2]);
+	// draw the points
 	glBegin(GL_POINTS);
 	glVertex3f(0.13, 0.33, 3.0);
 	glVertex3f(0.1, 0.3, 3.0);
@@ -485,6 +496,7 @@ void drawScorpicus()
 	glVertex3f(0.77, 0.54, 3.0);
 	glVertex3f(0.74, 0.6, 3.0);
 	glEnd();
+
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.13, 0.33, 3.0);
 	glVertex3f(0.1, 0.3, 3.0);
@@ -498,6 +510,7 @@ void drawScorpicus()
 	glVertex3f(0.65, 0.63, 3.0);
 	glVertex3f(0.69, 0.65, 3.0);
 	glEnd();
+
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.69, 0.71, 3.0);
 	glVertex3f(0.65, 0.63, 3.0);
@@ -508,10 +521,21 @@ void drawScorpicus()
 	glPopMatrix();
 }
 
+/************************************************************************
+
+
+Function:		drawCapricorn
+
+
+Description:	Draws the capricorn constellation
+
+
+*************************************************************************/
 void drawCapricorn()
 {
 	glPushMatrix();
 	glTranslatef(capricornPos[0], capricornPos[1], capricornPos[2]);
+	// draw the points
 	glBegin(GL_POINTS);
 	glVertex3f(0.2, 0.4, 3.0);
 	glVertex3f(0.23, 0.5, 3.0);
@@ -525,17 +549,20 @@ void drawCapricorn()
 	glVertex3f(0.47, 0.32, 3.0);
 	glVertex3f(0.44, 0.28, 3.0);
 	glEnd();
+
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.2, 0.4, 3.0);
 	glVertex3f(0.23, 0.5, 3.0);
 	glVertex3f(0.33, 0.51, 3.0);
 	glVertex3f(0.21, 0.39, 3.0);
 	glEnd();
+
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.33, 0.51, 3.0);
 	glVertex3f(0.34, 0.45, 3.0);
 	glVertex3f(0.32, 0.32, 3.0);
 	glEnd();
+
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.55, 0.65, 3.0);
 	glVertex3f(0.53, 0.55, 3.0);
@@ -543,6 +570,7 @@ void drawCapricorn()
 	glVertex3f(0.47, 0.32, 3.0);
 	glVertex3f(0.44, 0.28, 3.0);
 	glEnd();
+
 	glBegin(GL_LINES);
 	glVertex3f(0.33, 0.51, 3.0);
 	glVertex3f(0.53, 0.55, 3.0);
@@ -552,10 +580,21 @@ void drawCapricorn()
 	glPopMatrix();
 }
 
+/************************************************************************
+
+
+Function:		drawLibra
+
+
+Description:	Draws the libra constellation
+
+
+*************************************************************************/
 void drawLibra()
 {
 	glPushMatrix();
 	glTranslatef(libraPos[0], libraPos[1], libraPos[2]);
+	// draw the points
 	glBegin(GL_POINTS);
 	glVertex3f(0.4, 0.4, 3.0);
 	glVertex3f(0.4, 0.6, 3.0);
@@ -563,12 +602,14 @@ void drawLibra()
 	glVertex3f(0.55, 0.4, 3.0);
 	glVertex3f(0.48, 0.7, 3.0);
 	glEnd();
+
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.4, 0.4, 3.0);
 	glVertex3f(0.4, 0.6, 3.0);
 	glVertex3f(0.55, 0.55, 3.0);
 	glVertex3f(0.55, 0.4, 3.0);
 	glEnd();
+
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.4, 0.6, 3.0);
 	glVertex3f(0.48, 0.7, 3.0);
@@ -577,15 +618,27 @@ void drawLibra()
 	glPopMatrix();
 }
 
+/************************************************************************
+
+
+Function:		drawScutum
+
+
+Description:	Draws the scutum constellation
+
+
+*************************************************************************/
 void drawScutum()
 {
 	glPushMatrix();
 	glTranslatef(scutumPos[0], scutumPos[1], scutumPos[2]);
+	// draw the points
 	glBegin(GL_POINTS);
 	glVertex3f(0.4, 0.6, 3.0);
 	glVertex3f(0.5, 0.5, 3.0);
 	glVertex3f(0.45, 0.4, 3.0);
 	glEnd();
+
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.4, 0.6, 3.0);
 	glVertex3f(0.5, 0.5, 3.0);
@@ -594,6 +647,16 @@ void drawScutum()
 	glPopMatrix();
 }
 
+/************************************************************************
+
+
+Function:		drawOrbitRing
+
+
+Description:	Draws orbit ring for a planet with the given radius
+
+
+*************************************************************************/
 void drawOrbitRing(double rad)
 {
 	glColor3f(1.0, 1.0, 1.0);
@@ -692,7 +755,16 @@ void drawVoyager()
 	glPopMatrix();
 }
 
+/************************************************************************
 
+
+Function:		drawOrbit
+
+
+Description:	Draws the orbit ring around the planet
+
+
+*************************************************************************/
 void drawOrbit(float xRadius, float yRadius)
 {
 	glBegin(GL_LINES);
