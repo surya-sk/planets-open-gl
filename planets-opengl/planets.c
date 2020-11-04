@@ -31,6 +31,9 @@ GLint showCorona = 0;
 // determines whether orbit trials and rings should be shown
 GLint showRings = 0;
 
+// determines whether the constellations should be shown
+GLint showConstellations = 0;
+
 // pi
 const float PI = 3.141592653;
 
@@ -98,6 +101,9 @@ GLint showEnt, showVoyager, showKlingon;
 
 // positions for enterprise and camel
 GLfloat entXPos, entYPos, entZPos, camXPos, camYPos, camZPos;
+
+// positions for the constellations
+GLfloat scutumPos[3], libraPos[3], capricornPos[3], scorpicusPos[3];
 
 /************************************************************************
 
@@ -421,6 +427,20 @@ void myDisplay()
 	//draw planets and their moons
 	drawPlanetsAndMoons(quad);
 
+	glPointSize(4.0);
+	glColor3f(1.0, 1.0, 1.0);
+
+	// draw scutum constellation
+	drawScutum();
+
+	// draw libra constellation
+	drawLibra();
+
+	// draw capricorn constellation
+	drawCapricorn();
+
+	// draw scorpicus constellation
+	drawScorpicus();
 
 	// draw stars if s is pressed
 	if (showStars)
@@ -437,6 +457,133 @@ void myDisplay()
 
 	// switch to the other buffer
 	glutSwapBuffers();
+}
+
+void drawScorpicus()
+{
+	glPushMatrix();
+	glBegin(GL_POINTS);
+	glVertex3f(0.13, 0.33, 3.0);
+	glVertex3f(0.1, 0.3, 3.0);
+	glVertex3f(0.07, 0.28, 3.0);
+	glVertex3f(0.13, 0.2, 3.0);
+	glVertex3f(0.25, 0.2, 3.0);
+	glVertex3f(0.4, 0.22, 3.0);
+	glVertex3f(0.41, 0.33, 3.0);
+	glVertex3f(0.42, 0.43, 3.0);
+	glVertex3f(0.6, 0.6, 3.0);
+	glVertex3f(0.65, 0.63, 3.0);
+	glVertex3f(0.69, 0.65, 3.0);
+	glVertex3f(0.69, 0.71, 3.0);
+	glVertex3f(0.65, 0.63, 3.0);
+	glVertex3f(0.67, 0.58, 3.0);
+	glVertex3f(0.77, 0.54, 3.0);
+	glVertex3f(0.74, 0.6, 3.0);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+	glVertex3f(0.13, 0.33, 3.0);
+	glVertex3f(0.1, 0.3, 3.0);
+	glVertex3f(0.07, 0.28, 3.0);
+	glVertex3f(0.13, 0.2, 3.0);
+	glVertex3f(0.25, 0.2, 3.0);
+	glVertex3f(0.4, 0.22, 3.0);
+	glVertex3f(0.41, 0.33, 3.0);
+	glVertex3f(0.42, 0.43, 3.0);
+	glVertex3f(0.6, 0.6, 3.0);
+	glVertex3f(0.65, 0.63, 3.0);
+	glVertex3f(0.69, 0.65, 3.0);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+	glVertex3f(0.69, 0.71, 3.0);
+	glVertex3f(0.65, 0.63, 3.0);
+	glVertex3f(0.67, 0.58, 3.0);
+	glVertex3f(0.77, 0.54, 3.0);
+	glVertex3f(0.74, 0.6, 3.0);
+	glEnd();
+	glPopMatrix();
+}
+
+void drawCapricorn()
+{
+	glPushMatrix();
+	glBegin(GL_POINTS);
+	glVertex3f(0.2, 0.4, 3.0);
+	glVertex3f(0.23, 0.5, 3.0);
+	glVertex3f(0.33, 0.51, 3.0);
+	glVertex3f(0.21, 0.39, 3.0);
+	glVertex3f(0.34, 0.45, 3.0);
+	glVertex3f(0.32, 0.32, 3.0);
+	glVertex3f(0.55, 0.65, 3.0);
+	glVertex3f(0.53, 0.55, 3.0);
+	glVertex3f(0.51, 0.47, 3.0);
+	glVertex3f(0.47, 0.32, 3.0);
+	glVertex3f(0.44, 0.28, 3.0);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+	glVertex3f(0.2, 0.4, 3.0);
+	glVertex3f(0.23, 0.5, 3.0);
+	glVertex3f(0.33, 0.51, 3.0);
+	glVertex3f(0.21, 0.39, 3.0);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+	glVertex3f(0.33, 0.51, 3.0);
+	glVertex3f(0.34, 0.45, 3.0);
+	glVertex3f(0.32, 0.32, 3.0);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+	glVertex3f(0.55, 0.65, 3.0);
+	glVertex3f(0.53, 0.55, 3.0);
+	glVertex3f(0.51, 0.47, 3.0);
+	glVertex3f(0.47, 0.32, 3.0);
+	glVertex3f(0.44, 0.28, 3.0);
+	glEnd();
+	glBegin(GL_LINES);
+	glVertex3f(0.33, 0.51, 3.0);
+	glVertex3f(0.53, 0.55, 3.0);
+	glVertex3f(0.34, 0.45, 3.0);
+	glVertex3f(0.51, 0.47, 3.0);
+	glEnd();
+	glPopMatrix();
+}
+
+void drawLibra()
+{
+	glPushMatrix();
+	glBegin(GL_POINTS);
+	glVertex3f(0.4, 0.4, 3.0);
+	glVertex3f(0.4, 0.6, 3.0);
+	glVertex3f(0.55, 0.55, 3.0);
+	glVertex3f(0.55, 0.4, 3.0);
+	glVertex3f(0.48, 0.7, 3.0);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+	glVertex3f(0.4, 0.4, 3.0);
+	glVertex3f(0.4, 0.6, 3.0);
+	glVertex3f(0.55, 0.55, 3.0);
+	glVertex3f(0.55, 0.4, 3.0);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+	glVertex3f(0.4, 0.6, 3.0);
+	glVertex3f(0.48, 0.7, 3.0);
+	glVertex3f(0.55, 0.55, 3.0);
+	glEnd();
+	glPopMatrix();
+}
+
+void drawScutum()
+{
+	glPushMatrix();
+	glBegin(GL_POINTS);
+	glVertex3f(0.4, 0.6, 3.0);
+	glVertex3f(0.5, 0.5, 3.0);
+	glVertex3f(0.45, 0.4, 3.0);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+	glVertex3f(0.4, 0.6, 3.0);
+	glVertex3f(0.5, 0.5, 3.0);
+	glVertex3f(0.45, 0.4, 3.0);
+	glEnd();
+	glPopMatrix();
 }
 
 void drawOrbitRing(double rad)

@@ -12,6 +12,12 @@ void drawOrbit();
 
 void readEnterpriseFile();
 
+void drawScutum();
+
+void drawLibra();
+
+void drawCapricorn();
+
 void drawVoyager();
 
 void drawCamel();
