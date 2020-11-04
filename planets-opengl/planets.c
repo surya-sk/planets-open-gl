@@ -430,17 +430,20 @@ void myDisplay()
 	glPointSize(4.0);
 	glColor3f(1.0, 1.0, 1.0);
 
-	// draw scutum constellation
-	drawScutum();
+	if (showConstellations)
+	{
+		// draw scutum constellation
+		drawScutum();
 
-	// draw libra constellation
-	drawLibra();
+		// draw libra constellation
+		drawLibra();
 
-	// draw capricorn constellation
-	drawCapricorn();
+		// draw capricorn constellation
+		drawCapricorn();
 
-	// draw scorpicus constellation
-	drawScorpicus();
+		// draw scorpicus constellation
+		drawScorpicus();
+	}
 
 	// draw stars if s is pressed
 	if (showStars)
@@ -462,6 +465,7 @@ void myDisplay()
 void drawScorpicus()
 {
 	glPushMatrix();
+	glTranslatef(scorpicusPos[0], scorpicusPos[1], scorpicusPos[2]);
 	glBegin(GL_POINTS);
 	glVertex3f(0.13, 0.33, 3.0);
 	glVertex3f(0.1, 0.3, 3.0);
@@ -506,6 +510,7 @@ void drawScorpicus()
 void drawCapricorn()
 {
 	glPushMatrix();
+	glTranslatef(capricornPos[0], capricornPos[1], capricornPos[2]);
 	glBegin(GL_POINTS);
 	glVertex3f(0.2, 0.4, 3.0);
 	glVertex3f(0.23, 0.5, 3.0);
@@ -549,6 +554,7 @@ void drawCapricorn()
 void drawLibra()
 {
 	glPushMatrix();
+	glTranslatef(libraPos[0], libraPos[1], libraPos[2]);
 	glBegin(GL_POINTS);
 	glVertex3f(0.4, 0.4, 3.0);
 	glVertex3f(0.4, 0.6, 3.0);
@@ -573,6 +579,7 @@ void drawLibra()
 void drawScutum()
 {
 	glPushMatrix();
+	glTranslatef(scutumPos[0], scutumPos[1], scutumPos[2]);
 	glBegin(GL_POINTS);
 	glVertex3f(0.4, 0.6, 3.0);
 	glVertex3f(0.5, 0.5, 3.0);
@@ -773,6 +780,7 @@ void drawSunCorona()
 
 		glEnd();
 	}
+	// disable blending
 	glDisable(GL_BLEND);
 	glPopMatrix();
 }
@@ -1018,6 +1026,22 @@ void myKey(unsigned char key, int x, int y)
 			showRings = 1;
 		}
 		break;
+
+	// show or hide constellations if 'k' is pressed
+	case('k'):
+		if (showConstellations)
+		{
+			showConstellations = 0;
+		}
+		else
+		{
+			// randomize position of each constellation
+			scutumPos[0] = getRandomFloat(-1.0, 1.0); scutumPos[1] = getRandomFloat(-1.0, 1.0); scutumPos[2] = getRandomFloat(-7.0, -1.0);
+			libraPos[0] = getRandomFloat(-2.0, 2.0); libraPos[1] = getRandomFloat(-2.0, 2.0); libraPos[2] = getRandomFloat(-7.0, -1.0);
+			capricornPos[0] = getRandomFloat(-2.0, 2.0); capricornPos[1] = getRandomFloat(-2.0, 2.0); capricornPos[2] = getRandomFloat(-7.0, -1.0);
+			scorpicusPos[0] = getRandomFloat(-2.0, 2.0); scorpicusPos[1] = getRandomFloat(-2.0, 2.0); scorpicusPos[2] = getRandomFloat(-7.0, -1.0);
+			showConstellations = 1;
+		}
 
 	// show the selected vehicle
 	case('1'):

@@ -18,6 +18,8 @@ void drawLibra();
 
 void drawCapricorn();
 
+void drawScorpicus();
+
 void drawVoyager();
 
 void drawCamel();
