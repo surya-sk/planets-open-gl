@@ -385,9 +385,8 @@ void myDisplay()
 	if (showEnt)
 	{
 		// draw the enterprise and camel
-		//drawEnterprise();
-
-		//drawCamel();
+		drawEnterprise();
+		drawCamel();
 	}
 
 	if (showVoyager)
@@ -660,7 +659,7 @@ Description:	Draws orbit ring for a planet with the given radius
 void drawOrbitRing(double rad)
 {
 	glColor3f(1.0, 1.0, 1.0);
-	glBegin(GL_LINES);
+	glBegin(GL_LINE_LOOP);
 	for (float i = 0; i < 2 * PI; i += 0.001)
 	{
 		float x = rad * cos(i) + 0.0;
