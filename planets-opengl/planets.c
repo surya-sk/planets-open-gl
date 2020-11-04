@@ -176,6 +176,7 @@ void initializeGL()
 	// enable depth testing
 	glEnable(GL_DEPTH_TEST);
 
+	glLineWidth(0.2);
 	// set enterprise to show by default
 	showEnt = 1;
 
@@ -996,6 +997,7 @@ void myKey(unsigned char key, int x, int y)
 		if (showStars)
 		{
 			showStars = 0;
+			showConstellations = 0;
 		}
 		else
 		{
