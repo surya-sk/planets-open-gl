@@ -843,7 +843,8 @@ void drawSunCorona()
 	for (int i = 0; i < NUM_LINES; i++)
 	{
 		glRotatef(getRandomFloat(0, 2 * PI), 0.0, 0.0, 1.0);
-		
+		// randomize line width
+		glLineWidth(getRandomFloat(0.1, 3.0));
 		glBegin(GL_LINES);
 
 		glColor4f(1.0, 1.0, 0.0, 0.0);
@@ -855,6 +856,8 @@ void drawSunCorona()
 	}
 	// disable blending
 	glDisable(GL_BLEND);
+	//set line width back to 0.2
+	glLineWidth(0.2);
 	glPopMatrix();
 }
 
