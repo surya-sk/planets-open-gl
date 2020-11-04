@@ -91,7 +91,7 @@ int kliFaces[3191][3];
 GLfloat cameraPosition[] = { 0.0,0.0, 2.5 };
 
 // difference added at each frame
-GLfloat interpDiff = 0.005;
+GLfloat interpDiff = 0.003;
 
 // determine direction to move the camera in
 GLint moveUp, moveDown, moveRight, moveLeft, moveForward, moveBackward = 0;
@@ -1033,7 +1033,7 @@ void myKey(unsigned char key, int x, int y)
 		{
 			showConstellations = 0;
 		}
-		else
+		else if(!showConstellations && showStars)
 		{
 			// randomize position of each constellation
 			scutumPos[0] = getRandomFloat(-1.0, 1.0); scutumPos[1] = getRandomFloat(-1.0, 1.0); scutumPos[2] = getRandomFloat(-7.0, -1.0);
