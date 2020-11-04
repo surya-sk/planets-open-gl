@@ -91,7 +91,7 @@ int kliFaces[3191][3];
 GLfloat cameraPosition[] = { 0.0,0.0, 2.5 };
 
 // difference added at each frame
-GLfloat interpDiff = 0.0005;
+GLfloat interpDiff = 0.005;
 
 // determine direction to move the camera in
 GLint moveUp, moveDown, moveRight, moveLeft, moveForward, moveBackward = 0;
