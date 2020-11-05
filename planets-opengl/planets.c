@@ -1164,7 +1164,6 @@ void myKey(unsigned char key, int x, int y)
 		{
 			showVoyager = 1;
 			showEnt = showKlingon = 0;
-			interpDiff += 0.002;
 		}
 		break;
 	case('3'):
@@ -1172,7 +1171,6 @@ void myKey(unsigned char key, int x, int y)
 		{
 			showKlingon = 1;
 			showEnt = showVoyager = 0;
-			interpDiff += 0.008;
 		}
 		break;
 	}
