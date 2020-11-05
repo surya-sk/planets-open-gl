@@ -189,7 +189,7 @@ void initializeGL()
 	// assign random numbers to star points
 	for (int i = 0; i < 3000; i++)
 	{
-		starPoints[i] = getRandomFloat(-3.9,3.9);
+		starPoints[i] = getRandomFloat(-3.5,3.5);
 	}
 
 	// read the four files
@@ -431,7 +431,7 @@ void myDisplay()
 	//draw planets and their moons
 	drawPlanetsAndMoons(quad);
 
-	glPointSize(4.0);
+	glPointSize(3.0);
 	glColor3f(1.0, 1.0, 1.0);
 
 	if (showConstellations)
@@ -479,6 +479,7 @@ Description:	Draws the scorpicus consellation
 void drawScorpicus()
 {
 	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
 	glTranslatef(scorpicusPos[0], scorpicusPos[1], scorpicusPos[2]);
 	// draw the points
 	glBegin(GL_POINTS);
@@ -500,6 +501,7 @@ void drawScorpicus()
 	glVertex3f(0.74, 0.6, 3.0);
 	glEnd();
 
+	glColor3f(0.0, 0.5, 0.5);
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.13, 0.33, 3.0);
 	glVertex3f(0.1, 0.3, 3.0);
@@ -537,6 +539,7 @@ Description:	Draws the capricorn constellation
 void drawCapricorn()
 {
 	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
 	glTranslatef(capricornPos[0], capricornPos[1], capricornPos[2]);
 	// draw the points
 	glBegin(GL_POINTS);
@@ -553,6 +556,7 @@ void drawCapricorn()
 	glVertex3f(0.44, 0.28, 3.0);
 	glEnd();
 
+	glColor3f(0.0, 0.5, 0.5);
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.2, 0.4, 3.0);
 	glVertex3f(0.23, 0.5, 3.0);
@@ -596,6 +600,7 @@ Description:	Draws the libra constellation
 void drawLibra()
 {
 	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
 	glTranslatef(libraPos[0], libraPos[1], libraPos[2]);
 	// draw the points
 	glBegin(GL_POINTS);
@@ -606,6 +611,7 @@ void drawLibra()
 	glVertex3f(0.48, 0.7, 3.0);
 	glEnd();
 
+	glColor3f(0.0, 0.5, 0.5);
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.4, 0.4, 3.0);
 	glVertex3f(0.4, 0.6, 3.0);
@@ -634,6 +640,7 @@ Description:	Draws the scutum constellation
 void drawScutum()
 {
 	glPushMatrix();
+	glColor3f(1.0, 1.0, 1.0);
 	glTranslatef(scutumPos[0], scutumPos[1], scutumPos[2]);
 	// draw the points
 	glBegin(GL_POINTS);
@@ -642,6 +649,7 @@ void drawScutum()
 	glVertex3f(0.45, 0.4, 3.0);
 	glEnd();
 
+	glColor3f(0.0, 0.5, 0.5);
 	glBegin(GL_LINE_STRIP);
 	glVertex3f(0.4, 0.6, 3.0);
 	glVertex3f(0.5, 0.5, 3.0);
@@ -791,7 +799,6 @@ void drawEnterprise()
 	glVertex3f(0.0, 1.5, 0.0);
 	glEnd();
 	glBegin(GL_LINE_STRIP);
-	glColor3f(0.0, 0.0, 1.0);
 	glVertex3f(0.3, 0.2, 0.0);
 	glVertex3f(0.9, 1.2, 0.0);
 	glVertex3f(0.0, 1.5, 0.0);
@@ -828,7 +835,7 @@ void drawSunCorona()
 		glBegin(GL_LINES);
 
 		glColor4f(1.0, 1.0, 0.0, 0.0);
-		glVertex2f(-0.25, 0.0);
+		glVertex2f(-0.3, 0.0);
 		glColor4f(1.0, 1.0, -1.0, 1.0);
 		glVertex2f(-0.2, 0.0);
 
