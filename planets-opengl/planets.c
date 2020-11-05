@@ -660,7 +660,7 @@ void drawOrbitRing(double rad)
 {
 	glColor3f(1.0, 1.0, 1.0);
 	glBegin(GL_LINE_LOOP);
-	for (float i = 0; i < 2 * PI; i += 0.001)
+	for (float i = 0; i < 2 * PI; i += 0.01)
 	{
 		float x = rad * cos(i) + 0.0;
 		float y = 0.0;
@@ -689,9 +689,11 @@ void drawKlingon()
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 3191; i++)
 	{
-		glColor3f(1.0, 1.0, 1.0);
+		glColor3f(i, i, i);
 		glVertex3f(kliVertices[kliFaces[i][0]][0], kliVertices[kliFaces[i][0]][1], kliVertices[kliFaces[i][0]][2]);
+		glColor3f(0.3 + i / 3191, 0.3 + i / 3191, 0.3 + i / 3191);
 		glVertex3f(kliVertices[kliFaces[i][1]][0], kliVertices[kliFaces[i][1]][1], kliVertices[kliFaces[i][1]][2]);
+		glColor3f(1.0, 1.0, 1.0);
 		glVertex3f(kliVertices[kliFaces[i][2]][0], kliVertices[kliFaces[i][2]][1], kliVertices[kliFaces[i][2]][2]);
 	}
 	glEnd();
@@ -717,7 +719,7 @@ void drawCamel()
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 4884; i++)
 	{
-		glColor3f(1.0, 1.0, 1.0);
+		glColor3f(0.8, 0.5, 0.0);
 		glVertex3f(camVertices[camFaces[i][0]][0], camVertices[camFaces[i][0]][1], camVertices[camFaces[i][0]][2]);
 		glVertex3f(camVertices[camFaces[i][1]][0], camVertices[camFaces[i][1]][1], camVertices[camFaces[i][1]][2]);
 		glVertex3f(camVertices[camFaces[i][2]][0], camVertices[camFaces[i][2]][1], camVertices[camFaces[i][2]][2]);
@@ -745,9 +747,11 @@ void drawVoyager()
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 4409; i++)
 	{
-		glColor3f(1.0, 1.0, 1.0);
+		glColor3f(i, i, i);
 		glVertex3f(voyVertices[voyFaces[i][0]][0], voyVertices[voyFaces[i][0]][1], voyVertices[voyFaces[i][0]][2]);
+		glColor3f(0.3 + i / 4409, 0.3 + i / 4409, 0.3 + i / 4409);
 		glVertex3f(voyVertices[voyFaces[i][1]][0], voyVertices[voyFaces[i][1]][1], voyVertices[voyFaces[i][1]][2]);
+		glColor3f(1.0,1.0,1.0);
 		glVertex3f(voyVertices[voyFaces[i][2]][0], voyVertices[voyFaces[i][2]][1], voyVertices[voyFaces[i][2]][2]);
 	}
 	glEnd();
@@ -799,9 +803,9 @@ void drawEnterprise()
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 1989; i++)
 	{
-		glColor3f(1989/1989, 1989 /1989, 1989 /1989);
+		glColor3f(i, i , i );
 		glVertex3f(entVertices[entFaces[i][0]][0], entVertices[entFaces[i][0]][1], entVertices[entFaces[i][0]][2]);
-		glColor3f(1989 / 1989, 1989 / 1989, 1989 / 1989);
+		glColor3f(0.3 + i / 1989, 0.3 + i / 1989, 0.3 + i / 1989);
 		glVertex3f(entVertices[entFaces[i][1]][0], entVertices[entFaces[i][1]][1], entVertices[entFaces[i][1]][2]);
 		glColor3f(1989 / 1989, 1989 / 1989, 1989 / 1989);
 		glVertex3f(entVertices[entFaces[i][2]][0], entVertices[entFaces[i][2]][1], entVertices[entFaces[i][2]][2]);
