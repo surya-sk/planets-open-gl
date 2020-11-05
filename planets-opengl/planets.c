@@ -105,6 +105,9 @@ GLfloat entXPos, entYPos, entZPos, camXPos, camYPos, camZPos;
 // positions for the constellations
 GLfloat scutumPos[3], libraPos[3], capricornPos[3], scorpicusPos[3];
 
+// enterprise movement speed
+GLfloat movementInterp = 0.05;
+
 /************************************************************************
 
 
@@ -179,9 +182,11 @@ void initializeGL()
 	glLineWidth(0.2);
 	// set enterprise to show by default
 	showEnt = 1;
+	
+	entXPos = cameraPosition[0]; entYPos = cameraPosition[1]; entZPos = cameraPosition[2];
 
 	// assign random numbers to star points
-	for (int i = 0; i < 700; i++)
+	for (int i = 0; i < 3000; i++)
 	{
 		starPoints[i] = getRandomFloat(-4.0,4.0);
 	}
@@ -794,9 +799,6 @@ Description:	Draws the enterprise from the entVertices and entFaces
 void drawEnterprise()
 {
 	glPushMatrix();
-	entXPos = cameraPosition[0] - 0.4;
-	entYPos = cameraPosition[1] - 0.8;
-	entZPos = cameraPosition[2] + 0.2;
 	glScalef(0.15, 0.15, 0.15);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
 	glTranslatef(entXPos, entYPos, entZPos);
@@ -820,7 +822,6 @@ void drawEnterprise()
 	glPopMatrix();
 	//glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
 }
-
 
 
 /************************************************************************
@@ -879,10 +880,10 @@ void drawStars()
 	glPointSize(1.0);
 	// draw stars
 	glBegin(GL_POINTS);
-	for (int i = 0; i < 700; i++)
+	for (int i = 0; i < 2000; i++)
 	{
 		glColor3f(starColors[getRandomNumber(0, 1)], starColors[getRandomNumber(0, 1)], starColors[getRandomNumber(0, 1)]);
-		glVertex3f(starPoints[i], starPoints[i++], 0.0);
+		glVertex3f(starPoints[i], starPoints[i++], starPoints[i+2]);
 	}
 	glEnd();
 }
@@ -1033,26 +1034,32 @@ void determineMovement()
 	if (moveRight)
 	{
 		cameraPosition[0] += interpDiff;
+		entXPos += movementInterp;
 	}
 	if (moveLeft)
 	{
 		cameraPosition[0] -= interpDiff;
+		entXPos -= movementInterp;
 	}
 	if (moveUp)
 	{
 		cameraPosition[1] += interpDiff;
+		entYPos += movementInterp;
 	}
 	if (moveDown)
 	{
 		cameraPosition[1] -= interpDiff;
+		entYPos -= movementInterp;
 	}
 	if (moveForward)
 	{
 		cameraPosition[2] -= interpDiff;
+		entZPos -= movementInterp/5;
 	}
 	if (moveBackward)
 	{
 		cameraPosition[2] += interpDiff;
+		entZPos += movementInterp/5;
 	}
 }
 
