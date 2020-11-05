@@ -183,8 +183,27 @@ void initializeGL()
 	// set enterprise to show by default
 	showEnt = 1;
 	
+	// initialize enterprise position
 	entXPos = cameraPosition[0]; entYPos = cameraPosition[1]; entZPos = cameraPosition[2];
 
+	// print out keys and features
+	printf("Scene Controls\n");
+	printf("---------\n\n");
+	printf("r : toggle rings\n");
+	printf("s : toggle stars\n");
+	printf("c : toggle corona\n");
+	printf("k : toggle constellations\n");
+	printf("1 : enable enterprise\n");
+	printf("2 : switch to voyager\n");
+	printf("3 : switch to klingon\n\n");
+	printf("Camera Controls\n");
+	printf("---------\n\n");
+	printf("up arrow : move up\n");
+	printf("down arrow: move down\n");
+	printf("left arrow : move left\n");
+	printf("right arrow : move right\n");
+	printf("page up : move forward\n");
+	printf("page down : move backward\n");
 
 	// assign random numbers to star points
 	for (int i = 0; i < 3000; i++)
@@ -727,7 +746,7 @@ void drawVoyager()
 	glPushMatrix();
 	glScalef(0.4, 0.4, 0.4);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef( entXPos + 0.2 , entYPos + 0.4 , entZPos - 2.0);
+	glTranslatef( entXPos , entYPos, entZPos);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 4409; i++)
 	{
@@ -1130,6 +1149,7 @@ void myKey(unsigned char key, int x, int y)
 		{
 			showVoyager = 1;
 			showEnt = showKlingon = 0;
+			interpDiff += 0.002;
 		}
 		break;
 	case('3'):
@@ -1137,6 +1157,7 @@ void myKey(unsigned char key, int x, int y)
 		{
 			showKlingon = 1;
 			showEnt = showVoyager = 0;
+			interpDiff += 0.008;
 		}
 		break;
 	}
