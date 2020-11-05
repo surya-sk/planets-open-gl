@@ -992,7 +992,7 @@ Description:	 Handles idle functionality
 void myIdle()
 {	
 	//increase angle
-	theta += 0.01; 
+	theta += 0.07; 
 
 	// determines camera movement based on input
 	determineMovement();
