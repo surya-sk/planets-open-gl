@@ -187,6 +187,33 @@ void initializeGL()
 	entXPos = cameraPosition[0]; entYPos = cameraPosition[1]; entZPos = cameraPosition[2];
 
 	// print out keys and features
+	printControls();
+
+	// assign random numbers to star points
+	for (int i = 0; i < 3000; i++)
+	{
+		starPoints[i] = getRandomFloat(-3.5,3.5);
+	}
+
+	// read the four files
+	readEnterpriseFile();
+	readVoyagerFile();
+	readCamelFile();
+	readKlingonFile();
+}
+
+/************************************************************************
+
+
+Function:		printControls
+
+
+Description:	Prints the scene and camera controls
+
+
+*************************************************************************/
+void printControls()
+{
 	printf("Scene Controls\n");
 	printf("---------\n\n");
 	printf("r : toggle rings\n");
@@ -204,18 +231,6 @@ void initializeGL()
 	printf("right arrow : move right\n");
 	printf("page up : move forward\n");
 	printf("page down : move backward\n");
-
-	// assign random numbers to star points
-	for (int i = 0; i < 3000; i++)
-	{
-		starPoints[i] = getRandomFloat(-3.5,3.5);
-	}
-
-	// read the four files
-	readEnterpriseFile();
-	readVoyagerFile();
-	readCamelFile();
-	readKlingonFile();
 }
 
 /************************************************************************

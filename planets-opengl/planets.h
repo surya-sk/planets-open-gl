@@ -33,3 +33,5 @@ void readVoyagerFile();
 void readCamelFile();
 
 void readKlingonFile();
+
+void printControls();
