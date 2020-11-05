@@ -185,17 +185,17 @@ void initializeGL()
 	
 	entXPos = cameraPosition[0]; entYPos = cameraPosition[1]; entZPos = cameraPosition[2];
 
+
 	// assign random numbers to star points
 	for (int i = 0; i < 3000; i++)
 	{
-		starPoints[i] = getRandomFloat(-4.0,4.0);
+		starPoints[i] = getRandomFloat(-3.9,3.9);
 	}
+
+	// read the four files
 	readEnterpriseFile();
-
 	readVoyagerFile();
-
 	readCamelFile();
-
 	readKlingonFile();
 }
 
@@ -391,7 +391,6 @@ void myDisplay()
 	{
 		// draw the enterprise and camel
 		drawEnterprise();
-		drawCamel();
 	}
 
 	if (showVoyager)
@@ -406,7 +405,7 @@ void myDisplay()
 		drawKlingon();
 	}
 	
-
+	
 	glTranslatef(-cameraPosition[0], -cameraPosition[1], -cameraPosition[2]);
 
 	glPushMatrix();
@@ -690,7 +689,7 @@ void drawKlingon()
 	glPushMatrix();
 	glScalef(0.1, 0.1, 0.1);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.7, cameraPosition[2] + 2.0);
+	glTranslatef(entXPos - 0.4, entYPos - 0.7, entZPos + 2.0);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 3191; i++)
 	{
@@ -700,34 +699,6 @@ void drawKlingon()
 		glVertex3f(kliVertices[kliFaces[i][1]][0], kliVertices[kliFaces[i][1]][1], kliVertices[kliFaces[i][1]][2]);
 		glColor3f(1.0, 1.0, 1.0);
 		glVertex3f(kliVertices[kliFaces[i][2]][0], kliVertices[kliFaces[i][2]][1], kliVertices[kliFaces[i][2]][2]);
-	}
-	glEnd();
-	glPopMatrix();
-}
-
-/************************************************************************
-
-
-Function:		drawCamel
-
-
-Description:	Draws the camel from the camVertices and camFaces
-
-
-*************************************************************************/
-void drawCamel()
-{
-	glPushMatrix();
-	glScalef(0.1, 0.1, 0.1);
-	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef(camXPos, camYPos, camZPos);
-	glBegin(GL_TRIANGLES);
-	for (int i = 0; i < 4884; i++)
-	{
-		glColor3f(0.8, 0.5, 0.0);
-		glVertex3f(camVertices[camFaces[i][0]][0], camVertices[camFaces[i][0]][1], camVertices[camFaces[i][0]][2]);
-		glVertex3f(camVertices[camFaces[i][1]][0], camVertices[camFaces[i][1]][1], camVertices[camFaces[i][1]][2]);
-		glVertex3f(camVertices[camFaces[i][2]][0], camVertices[camFaces[i][2]][1], camVertices[camFaces[i][2]][2]);
 	}
 	glEnd();
 	glPopMatrix();
@@ -748,7 +719,7 @@ void drawVoyager()
 	glPushMatrix();
 	glScalef(0.4, 0.4, 0.4);
 	glRotatef(30.0, 1.0, 0.0, 0.0);
-	glTranslatef(cameraPosition[0] + 0.2 , cameraPosition[1] + 0.4 , cameraPosition[2]);
+	glTranslatef( entXPos + 0.2 , entYPos + 0.4 , entZPos - 2.0);
 	glBegin(GL_TRIANGLES);
 	for (int i = 0; i < 4409; i++)
 	{
@@ -813,14 +784,19 @@ void drawEnterprise()
 		glVertex3f(entVertices[entFaces[i][2]][0], entVertices[entFaces[i][2]][1], entVertices[entFaces[i][2]][2]);
 	}
 	glEnd();
+	glBegin(GL_LINE_STRIP);
+	glColor3f(0.0, 1.0, 0.0);
+	glVertex3f(-0.3, 0.2, 0.0);
+	glVertex3f(-0.9, 1.2, 0.0);
+	glVertex3f(0.0, 1.5, 0.0);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+	glColor3f(0.0, 0.0, 1.0);
+	glVertex3f(0.3, 0.2, 0.0);
+	glVertex3f(0.9, 1.2, 0.0);
+	glVertex3f(0.0, 1.5, 0.0);
+	glEnd();
 	glPopMatrix();
-	camXPos = entXPos;
-	camYPos = entYPos;
-	camZPos = entZPos;
-	glPushMatrix();
-	drawCamel();
-	glPopMatrix();
-	//glTranslatef(cameraPosition[0] - 0.4, cameraPosition[1] - 0.4, cameraPosition[2]);
 }
 
 
